@@ -8,6 +8,9 @@
 <body>
   <jsp:include page="../include/menu.jsp"/>
 <%--   <h2>Welcom to da home page ma boi ${pageContext.request.userPrincipal.name}</h2> --%>
+
+<h2>Welcome my boi</h2>
+<h3>here is your user: ${ user.username }</h3>
   <jsp:include page="../include/footer.jsp" />
 </body>
 </html>

@@ -8,35 +8,31 @@
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
-<!-- 	<ldap-server root="dc=springframework,dc=org" ldif="classpath:users.ldif" /> -->
+	<ldap-server root="dc=springframework,dc=org" url="ldap://localhost:389/dc=springframework,dc=org"
+		ldif="classpath:users.ldif" />
 
-<!-- 	<authentication-manager> -->
-<!-- 		<ldap-authentication-provider -->
-<!-- 			user-search-base="ou=people" user-search-filter="(uid={0})" -->
-<!-- 			group-search-base="ou=groups" group-search-filter="(member={0})"> -->
-<!-- 			<password-compare password-attribute="userPassword"> -->
-<!-- 				<password-encoder ref="encoder"> -->
-<!-- 				</password-encoder> -->
-<!-- 			</password-compare> -->
-<!-- 		</ldap-authentication-provider> -->
-<!-- 	</authentication-manager> -->
+	<authentication-manager alias="authenticationManager">
+		<ldap-authentication-provider
+			user-search-base="ou=people" user-search-filter="(uid={0})"
+			group-search-base="ou=groups" group-search-filter="(member={0})">
+			<password-compare password-attribute="userPassword">
+				<password-encoder ref="ldap-encoder"></password-encoder>
+			</password-compare>
+		</ldap-authentication-provider>
+	</authentication-manager>
 
-<!-- 	<http> -->
-<!-- 	<custom-filter after="BASIC_AUTH_FILTER" ref="ldapFilter"/> -->
-<!-- 	<custom-filter after="BASIC_AUTH_FILTER" ref="jdbcFilter"/> -->
-<!-- 	</http> -->
-<!-- 	<beans:bean id="ldapFilter" class="com.domain.portal.filter.CustomLdapFilter"/> -->
-<!-- 	<beans:bean id="jdbcFilter" class="com.domain.portal.filter.CustomJdbcFilter"/> -->
+	<!-- <http> -->
+	<!-- <custom-filter after="BASIC_AUTH_FILTER" ref="ldapFilter"/> -->
+	<!-- <custom-filter after="BASIC_AUTH_FILTER" ref="jdbcFilter"/> -->
+	<!-- </http> -->
+	<!-- <beans:bean id="ldapFilter" class="com.domain.portal.filter.CustomLdapFilter"/> -->
+	<!-- <beans:bean id="jdbcFilter" class="com.domain.portal.filter.CustomJdbcFilter"/> -->
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/user/**"
-			access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/user/**"
-			access="isAuthenticated()" />
+			access="hasRole('PEOPLE')" />
 		<intercept-url pattern="/admin/**"
 			access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/admin/**"
-			access="isAuthenticated()" />
 		<form-login login-page="/login"
 			default-target-url="/redirect"
 			authentication-failure-url="/login?error"
@@ -44,13 +40,13 @@
 		<logout logout-success-url="/login?logout" />
 	</http>
 
-	<authentication-manager
-		alias="authenticationManager">
-		<authentication-provider
-			user-service-ref="userDetailsServiceImpl">
-			<password-encoder ref="encoder"></password-encoder>
-		</authentication-provider>
-	</authentication-manager>
+<!-- 	<authentication-manager -->
+<!-- 		alias="authenticationManager"> -->
+<!-- 		<authentication-provider -->
+<!-- 			user-service-ref="userDetailsServiceImpl"> -->
+<!-- 			<password-encoder ref="encoder"></password-encoder> -->
+<!-- 		</authentication-provider> -->
+<!-- 	</authentication-manager> -->
 
 	<beans:bean id="userDetailsServiceImpl"
 		class="com.domain.portal.service.UserDetailsServiceImpl"></beans:bean>
@@ -59,5 +55,9 @@
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<beans:constructor-arg name="strength"
 			value="11" />
+	</beans:bean>
+	
+	<beans:bean id="ldap-encoder"
+		class="org.springframework.security.crypto.password.LdapShaPasswordEncoder">
 	</beans:bean>
 </beans:beans>

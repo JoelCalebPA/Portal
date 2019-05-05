@@ -61,6 +61,8 @@ public class LoginController {
 				redirect = "admin/home";
 			} else if (role.equals("ROLE_ANONYMUS")) {
 				redirect = "redirect:/login";
+			} else {
+				redirect = "redirect:user/welcome";
 			}
 		}
 		return redirect;
@@ -86,6 +88,8 @@ public class LoginController {
 				redirect = "redirect:/user";
 			} else if (role.equals("ROLE_ADMIN")) {
 				redirect = "redirect:/admin";
+			} else {
+				redirect = "redirect:user/welcome";
 			}
 		}
 		return redirect;
