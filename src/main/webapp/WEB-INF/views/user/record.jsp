@@ -9,5 +9,10 @@
 </head>
 <body>
 <h2>Welcome to records page ${pageContext.request.userPrincipal.name}</h2>
+<ul>
+<c:forEach var="rec" items="${ records }">
+<li>${ rec.path.substring(rec.path.lastIndexOf("/")+1) } --- ${ rec.uuid }</li>
+</c:forEach>
+</ul>
 </body>
 </html>

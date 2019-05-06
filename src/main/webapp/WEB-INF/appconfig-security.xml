@@ -8,45 +8,70 @@
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<ldap-server root="dc=springframework,dc=org" url="ldap://localhost:389/dc=springframework,dc=org"
-		ldif="classpath:users.ldif" />
-
-	<authentication-manager alias="authenticationManager">
-		<ldap-authentication-provider
-			user-search-base="ou=people" user-search-filter="(uid={0})"
-			group-search-base="ou=groups" group-search-filter="(member={0})">
-			<password-compare password-attribute="userPassword">
-				<password-encoder ref="ldap-encoder"></password-encoder>
-			</password-compare>
-		</ldap-authentication-provider>
-	</authentication-manager>
-
-	<!-- <http> -->
-	<!-- <custom-filter after="BASIC_AUTH_FILTER" ref="ldapFilter"/> -->
-	<!-- <custom-filter after="BASIC_AUTH_FILTER" ref="jdbcFilter"/> -->
-	<!-- </http> -->
-	<!-- <beans:bean id="ldapFilter" class="com.domain.portal.filter.CustomLdapFilter"/> -->
-	<!-- <beans:bean id="jdbcFilter" class="com.domain.portal.filter.CustomJdbcFilter"/> -->
-
+	
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/user/**"
-			access="hasRole('PEOPLE')" />
+			access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/admin/**"
 			access="hasRole('ROLE_ADMIN')" />
-		<form-login login-page="/login"
+		<form-login login-page="/login" 
 			default-target-url="/redirect"
 			authentication-failure-url="/login?error"
 			username-parameter="username" password-parameter="password" />
 		<logout logout-success-url="/login?logout" />
 	</http>
 
-<!-- 	<authentication-manager -->
-<!-- 		alias="authenticationManager"> -->
+	<authentication-manager
+		alias="authenticationManager">
 <!-- 		<authentication-provider -->
-<!-- 			user-service-ref="userDetailsServiceImpl"> -->
-<!-- 			<password-encoder ref="encoder"></password-encoder> -->
-<!-- 		</authentication-provider> -->
-<!-- 	</authentication-manager> -->
+<!-- 			ref="ldapAuthProvider" /> -->
+		<authentication-provider
+			user-service-ref="userDetailsServiceImpl">
+			<password-encoder ref="encoder" />
+		</authentication-provider>
+	</authentication-manager>
+
+	<ldap-server id="contextSource"
+		url="ldap://${ldap.server}:${ldap.port}/"
+		manager-dn="${ldap.manager.user}"
+		manager-password="${ldap.manager.password}" />
+
+	<!-- using bean-based configuration here to set the DefaultLdapAuthoritiesPopulater 
+		with ignorePartialResultsException=true. This is a known Spring/AD issue 
+		and a workaround for it -->
+	<beans:bean id="ldapAuthProvider"
+		class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+		<beans:constructor-arg>
+			<!-- the bind authenticator will first lookup the user using the service 
+				account credentials, then attempt to bind the user with their password once 
+				found -->
+			<beans:bean id="bindAuthenticator"
+				class="org.springframework.security.ldap.authentication.BindAuthenticator">
+				<beans:constructor-arg ref="contextSource" />
+				<beans:property name="userSearch" ref="userSearch" />
+			</beans:bean>
+		</beans:constructor-arg>
+		<beans:constructor-arg>
+			<beans:bean
+				class="org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator">
+				<beans:constructor-arg ref="contextSource" />
+				<beans:constructor-arg value="DC=company,DC=com" /> <!-- group search base -->
+				<!-- <beans:property name="defaultRole" value="ROLE_USER" /> You can add a 
+					default role to everyone if needed -->
+				<beans:property name="searchSubtree" value="true" />
+				<beans:property name="ignorePartialResultException" value="true" />
+				<beans:property name="groupSearchFilter" value="(member={0})" />
+			</beans:bean>
+		</beans:constructor-arg>
+	</beans:bean>
+	<beans:bean id="userSearch"
+		class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+		<beans:constructor-arg index="0" value="DC=company,DC=com" />
+		<beans:constructor-arg index="1"
+			value="(sAMAccountName={0})" />
+		<beans:constructor-arg index="2" ref="contextSource" />
+		<beans:property name="searchSubtree" value="true" />
+	</beans:bean>
 
 	<beans:bean id="userDetailsServiceImpl"
 		class="com.domain.portal.service.UserDetailsServiceImpl"></beans:bean>
@@ -56,8 +81,5 @@
 		<beans:constructor-arg name="strength"
 			value="11" />
 	</beans:bean>
-	
-	<beans:bean id="ldap-encoder"
-		class="org.springframework.security.crypto.password.LdapShaPasswordEncoder">
-	</beans:bean>
+
 </beans:beans>
