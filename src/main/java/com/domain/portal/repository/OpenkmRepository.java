@@ -1,6 +1,7 @@
 package com.domain.portal.repository;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,11 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import com.domain.portal.config.Config;
 import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.OKMWebservicesFactory;
+import com.openkm.sdk4j.bean.Configuration;
 import com.openkm.sdk4j.bean.Document;
 import com.openkm.sdk4j.bean.Folder;
 import com.openkm.sdk4j.bean.form.FormElement;
@@ -89,6 +93,20 @@ public class OpenkmRepository {
 		}
 		logger.info("Returning " + userDocs.size() + " docs for user: " + user);
 		return userDocs;
+	}
+
+	public Document getProperties(String node) throws RepositoryException, AccessDeniedException, PathNotFoundException,
+			DatabaseException, UnknowException, WebserviceException {
+		logger.debug("getProperty({})", node);
+		OKMWebservices ws = getOKMWebservices();
+		return ws.getDocumentProperties(node);
+	}
+
+	public InputStream getContent(String node) throws RepositoryException, IOException, PathNotFoundException,
+			AccessDeniedException, DatabaseException, UnknowException, WebserviceException {
+		logger.debug("getContent({})", node);
+		OKMWebservices ws = getOKMWebservices();
+		return ws.getContent(node);
 	}
 
 }

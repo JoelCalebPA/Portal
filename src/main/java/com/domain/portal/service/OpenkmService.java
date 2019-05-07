@@ -1,6 +1,7 @@
 package com.domain.portal.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,16 @@ public class OpenkmService {
 			throws AccessDeniedException, IOException, ParseException, PathNotFoundException, RepositoryException,
 			DatabaseException, UnknowException, WebserviceException, NoSuchGroupException {
 		return okmRepository.getDocuments(user);
+	}
+
+	public InputStream getContent(String node) throws RepositoryException, PathNotFoundException, AccessDeniedException,
+			DatabaseException, IOException, UnknowException, WebserviceException {
+		return okmRepository.getContent(node);
+	}
+
+	public Document getProperties(String node) throws RepositoryException, AccessDeniedException, PathNotFoundException,
+			DatabaseException, UnknowException, WebserviceException {
+		return okmRepository.getProperties(node);
 	}
 
 }
