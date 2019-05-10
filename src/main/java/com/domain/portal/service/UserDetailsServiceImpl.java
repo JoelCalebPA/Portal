@@ -15,9 +15,10 @@ import com.domain.portal.model.User;
 import com.domain.portal.repository.UserRepository;
 
 public class UserDetailsServiceImpl implements UserDetailsService{
+	
     @Autowired
     private UserRepository userRepository;
-
+    
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {

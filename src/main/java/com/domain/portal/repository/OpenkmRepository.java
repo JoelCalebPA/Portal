@@ -64,7 +64,6 @@ public class OpenkmRepository {
 		}
 		for (Document d : ws.getDocumentChildren(folder)) {
 			docs.add(d);
-			logger.debug("Document " + d.getPath() + " added");
 		}
 	}
 
@@ -83,7 +82,7 @@ public class OpenkmRepository {
 				for (FormElement fe : ws.getPropertyGroupProperties(document.getUuid(), METADATA_BOLETA)) {
 					if (fe.getName().equals(METADATA_NAME_FIELD)) {
 						Input i = (Input) fe;
-						logger.debug("Metadata property " + METADATA_NAME_FIELD + " vaue = " + i.getValue());
+						logger.debug("Metadata property " + METADATA_NAME_FIELD + " value = " + i.getValue());
 						if (i.getValue().equals(user)) {
 							userDocs.add(document);
 						}

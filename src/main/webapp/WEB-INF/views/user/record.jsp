@@ -1,18 +1,33 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<jsp:include page="../include/header.jsp" />
 </head>
 <body>
-<h2>Welcome to records page ${pageContext.request.userPrincipal.name}</h2>
-<ul>
-<c:forEach var="rec" items="${ records }">
-<li>${ rec.path.substring(rec.path.lastIndexOf("/")+1) } --- ${ rec.uuid }</li>
-</c:forEach>
-</ul>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col">
+				<jsp:include page="../include/menu.jsp" />
+			</div>
+			<div class="col">
+				<h2>Welcome to records page ${ user.username}</h2>
+				<div class="container-fluid">
+					<c:forEach var="doc" items="${ documents }">
+						<div class="row">
+							<div class="col">${ doc.name }</div>
+							<div class="col">
+								<a href="${ contextPath }/Download?node=${doc.uuid}">
+									Descargar </a>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+	</div>
+	<jsp:include page="../include/footer.jsp" />
 </body>
 </html>

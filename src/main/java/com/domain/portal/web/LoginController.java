@@ -51,18 +51,19 @@ public class LoginController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
 		String redirect = "redirect:/login";
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		List<String> roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList());
-		for (String role : roles) {
-			if (role.equals("ROLE_USER")) {
-				redirect = "user/home";
-			} else if (role.equals("ROLE_ADMIN")) {
-				redirect = "admin/home";
-			} else if (role.equals("ROLE_ANONYMUS")) {
-				redirect = "redirect:/login";
-			}
-		}
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		redirect = "redirect:/user";
+//		List<String> roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+//				.collect(Collectors.toList());
+//		for (String role : roles) {
+//			if (role.equals("ROLE_USER")) {
+//				redirect = "user/home";
+//			} else if (role.equals("ROLE_ADMIN")) {
+//				redirect = "admin/home";
+//			} else if (role.equals("ROLE_ANONYMUS")) {
+//				redirect = "redirect:/login";
+//			}
+//		}
 		return redirect;
 	}
 
@@ -78,16 +79,17 @@ public class LoginController {
 	@RequestMapping(value = "/redirect", method = RequestMethod.GET)
 	public String redirect() {
 		String redirect = "";
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		List<String> roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList());
-		for (String role : roles) {
-			if (role.equals("ROLE_USER")) {
-				redirect = "redirect:/user";
-			} else if (role.equals("ROLE_ADMIN")) {
-				redirect = "redirect:/admin";
-			}
-		}
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		List<String> roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+//				.collect(Collectors.toList());
+		redirect = "redirect:/user";
+//		for (String role : roles) {
+//			if (role.equals("ROLE_USER")) {
+//				redirect = "redirect:/user";
+//			} else if (role.equals("ROLE_ADMIN")) {
+//				redirect = "redirect:/admin";
+//			}
+//		}
 		return redirect;
 	}
 

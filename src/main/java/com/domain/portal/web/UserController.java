@@ -1,21 +1,24 @@
 package com.domain.portal.web;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.domain.portal.config.Config;
-import com.domain.portal.service.OpenkmService;
+import com.domain.portal.model.DocumentType;
+import com.domain.portal.model.User;
+import com.domain.portal.model.mapper.Mapper;
 import com.openkm.sdk4j.bean.Document;
 import com.openkm.sdk4j.exception.AccessDeniedException;
 import com.openkm.sdk4j.exception.DatabaseException;
@@ -25,6 +28,7 @@ import com.openkm.sdk4j.exception.UnknowException;
 import com.openkm.sdk4j.exception.WebserviceException;
 
 @Controller
+@SessionAttributes("documents")
 public class UserController {
 
 //	@Autowired
@@ -34,32 +38,33 @@ public class UserController {
 //	@Autowired
 //	@Qualifier(value = "transactionManager")
 //	JpaTransactionManager transactionManager;
-
-	@Autowired
-	private OpenkmService okmService;
+//
+//	@Autowired
+//	private OpenkmService okmService;
+//
+//	@Autowired
+//	private UserRepository userRepository;
 
 	@Autowired
 	private Config configService;
 
-	private Comparator<Document> documentsComparator = new Comparator<Document>() {
+	@ModelAttribute("documents")
+	public List<Document> documents() {
+		return new ArrayList<Document>();
+	}
 
-		@Override
-		public int compare(Document o1, Document o2) {
-			return o1.getCreated().compareTo(o2.getCreated());
-		}
-	};
-
+	@SuppressWarnings("unchecked")
 	@GetMapping("/user")
-	public ModelAndView getHome(Model model, HttpServletRequest request) {
+	public ModelAndView getHome(@ModelAttribute("documents") List<Document> documents, HttpServletRequest request) {
 		ModelAndView view;
+		HttpSession session = request.getSession();
 		try {
 			view = new ModelAndView("user/home");
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			List<Document> documents = okmService.getDocuments(auth.getName());
-			Collections.sort(documents, documentsComparator);
+			documents = (List<Document>) session.getAttribute("documents");
+			session.setAttribute("documents", documents);
 			Document doc = documents.iterator().next();
-			view.addObject("document", doc);
-			view.addObject("previewUrl", generatePreviewUrl(doc, request));
+			DocumentType docT = Mapper.docToDocType(doc, generatePreviewUrl(doc, request, true));
+			view.addObject("currentDoc", docT);
 		} catch (Exception e) {
 			view = new ModelAndView("error");
 			e.printStackTrace();
@@ -67,14 +72,19 @@ public class UserController {
 		return view;
 	}
 
+	@SuppressWarnings("unchecked")
 	@GetMapping(path = "/user/record")
-	public ModelAndView getRecord(Model model, HttpServletRequest request) {
+	public ModelAndView getRecord(@ModelAttribute("documents") List<Document> documents, HttpServletRequest request) {
 		ModelAndView view;
+		HttpSession session = request.getSession();
 		try {
 			view = new ModelAndView("user/record");
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			model.addAttribute("records", okmService.getDocuments(auth.getName()));
-//			model.addAttribute("previewUrl", generatePreviewUrl(doc, request));
+			documents = (List<Document>) session.getAttribute("documents");
+			List<DocumentType> docTypes = new ArrayList<DocumentType>();
+			for (Document doc : documents) {
+				docTypes.add(Mapper.docToDocType(doc, generatePreviewUrl(doc, request, false)));
+			}
+			view.addObject("documents", docTypes);
 		} catch (Exception e) {
 			e.printStackTrace();
 			view = new ModelAndView("error");
@@ -83,12 +93,21 @@ public class UserController {
 	}
 
 	@GetMapping("/user/account")
-	public String getAccount() {
-		return "user/account";
+	public ModelAndView getAccount(HttpServletRequest request) {
+		ModelAndView view;
+		HttpSession session = request.getSession();
+		try {
+			view = new ModelAndView("user/account");
+			User user = (User) session.getAttribute("user");
+			view.addObject("user", user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			view = new ModelAndView("error");
+		}
+		return view;
 	}
 
-	private String generatePreviewUrl(Document doc, HttpServletRequest request) throws RepositoryException,
-			AccessDeniedException, PathNotFoundException, DatabaseException, UnknowException, WebserviceException {
+	private String generatePreviewUrl(Document doc, HttpServletRequest request, boolean attachment) {
 		StringBuffer previewUrl = new StringBuffer();
 		previewUrl.append(configService.getPreviewKcenterToOpenKMUrl());
 		previewUrl.append("?");
@@ -100,7 +119,10 @@ public class UserController {
 		previewUrl.append(request.getSession().getId());
 		previewUrl.append("?node=");
 		previewUrl.append(doc.getUuid());
-		previewUrl.append("%26attachment=true");
+		if (!attachment)
+			previewUrl.append("%26attachment=false");
+		else
+			previewUrl.append("%26attachment=true");
 		return previewUrl.toString();
 	}
 

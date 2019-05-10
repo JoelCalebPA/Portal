@@ -1,0 +1,101 @@
+/*Body login*/
+body{
+	margin: 0;
+}
+#sesion{
+    	padding: 0% 10%;
+    	background: #0f0f63;
+    	color: white;
+}
+
+#encabezado-sesion{
+	text-align:center;
+	vertical-align: middle;
+}
+
+
+/*Footer login*/
+#titulo-sesion{
+	padding: 5% 0% 10% 0%;
+
+}
+#encabezado-sesion{
+	background-color: white;
+	color: #0f0f63;
+	padding: 6%;
+}
+#footer{
+	align-items: center;
+	font-size: 0.7rem!important;
+}
+#textfooter,#imgfooter{
+	text-align: center;
+	background-color: white;
+	color: #0f0f63;
+	padding: 0% 8%!important;
+}
+#footer-as1{
+	background-color: #0f0f63;
+}
+#footer-as2{
+}
+
+/*General menu-cuerpo*/
+/*MENU*/
+#menu-general{
+	background-color: #0f0f63;
+	width: 20%;
+	color: white;
+	text-align: center;
+	color: white;
+}
+
+#usuario-nombre{
+
+}
+
+#menu-opciones{
+
+}
+
+#opc-act{
+	background-color: white;
+	border-radius: .25rem;
+	color: #0f0f63;
+}
+#opc{
+	color: white;
+    cursor: pointer;
+}
+
+#opc:hover {
+	background-color: #728598;
+	border-radius: .25rem;
+	color: #0f0f63
+}
+
+#v-pills-home-tab{
+	background-color: white;
+	border-radius: .25rem;
+	color: #0f0f63;
+}
+
+
+/*CUERPO*/
+#cuerpo-general{
+	width: 80%;
+	font-size: 1rem;
+}
+#cuerpo-contenido{
+	vertical-align: middle;
+	text-align: center;
+	align-items: center;
+	alignment-baseline: central;
+}
+
+#encabezado-general{
+	text-align: right;
+}
+#usuario-nombre{
+	padding: 20% 3%;
+}

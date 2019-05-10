@@ -2,56 +2,39 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<nav id="sidebar" class="sidebar-wrapper">
-	<div class="sidebar-content">
-		<div class="sidebar-brand">
-			<a href="#">pro sidebar</a>
-			<div id="close-sidebar">
-				<i class="fas fa-times"></i>
-			</div>
+<div id="navbar" class="d-flex align-content-stretch flex-wrap">
+	<div id="menu-general" class="p-2">
+		<div id="usuario-nombre">
+			<h5>${ pageContext.request.userPrincipal.name }</h5>
 		</div>
-		<div class="sidebar-header">
-			<div class="user-pic">
-				<img class="img-responsive img-rounded"
-					src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
-					alt="User picture">
-			</div>
-			<div class="user-info">
-				<span class="user-name">Jhon <strong>Smith</strong>
-				</span> <span class="user-role">Administrator</span> <span
-					class="user-status"> <i class="fa fa-circle"></i> <span>Online</span>
-				</span>
-			</div>
-		</div>
-		<div class="sidebar-menu">
-			<ul>
-				<li class="header-menu"><span>General</span></li>
-				<li class="sidebar-dropdown"><a href="#"> <i
-						class="fa fa-tachometer-alt"></i> <span>Dashboard</span> <span
-						class="badge badge-pill badge-warning">New</span>
-				</a>
-					<div class="sidebar-submenu">
-						<ul>
-							<li><a href="#">Dashboard 1 <span
-									class="badge badge-pill badge-success">Pro</span>
-							</a></li>
-							<li><a href="#">Dashboard 2</a></li>
-							<li><a href="#">Dashboard 3</a></li>
-						</ul>
-					</div></li>
-				<li class="sidebar-dropdown"><a href="#"> <i
-						class="fa fa-shopping-cart"></i> <span>E-commerce</span> <span
-						class="badge badge-pill badge-danger">3</span>
-				</a>
-					<div class="sidebar-submenu">
-						<ul>
-							<li><a href="#">Products </a></li>
-							<li><a href="#">Orders</a></li>
-							<li><a href="#">Credit cart</a></li>
-						</ul>
-					</div></li>
-			</ul>
+		<div id="menu-opciones">
+			<nav class="nav flex-column">
+				<ul>
+					<li><div>
+							<a id="opc-act" class="nav-link active"
+								href="${ contextPath }/user"> Boleta actual</a>
+						</div></li>
+					<li><div>
+							<a id="opc" class="nav-link" href="${ contextPath }/user/record">Historial</a>
+						</div></li>
+					<li><div>
+							<a id="opc" class="nav-link" href="${ contextPath }/user/account">Mi
+								cuenta</a>
+						</div></li>
+					<li><c:if
+							test="${pageContext.request.userPrincipal.name != null}">
+							<form id="logoutForm" method="POST"
+								action="${contextPath}/logout">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
+							</form>
+							<a onclick="document.forms['logoutForm'].submit()">Cerrar
+								sesión</a>
+						</c:if></li>
+				</ul>
+			</nav>
 		</div>
 	</div>
-</nav>
+</div>

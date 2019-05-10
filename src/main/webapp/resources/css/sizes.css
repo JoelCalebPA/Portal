@@ -1,0 +1,58 @@
+/*Tamaños de Login */
+
+@media all and (max-width: 680px) {
+    #contentido-sesion,#encabezado-sesion{
+    	width: 100%;
+    	
+    }
+
+    #footer-as1,#footer-as2{
+    	width: 100%;
+    }
+    #footer-as1{
+    	min-height: 5%;
+    }
+}
+@media all and (min-width: 680px) {
+    #body{	/*Zona del body*/
+    	min-height: 70%;
+    	
+    }
+    #contentido-sesion,#encabezado-sesion{
+    	width: 50%;
+    	
+    }
+    #footer{  /*Zona del footer*/
+    	min-height: 30%;
+    }
+    #footer-as1,#footer-as2{  /*tamaño de divs dentro del footer*/
+    	width: 50%;
+    	
+    }
+    #footer-as1{
+    	min-height: 30%;
+    }
+    
+    
+}
+
+/*Tamaños de Boleta actual */
+
+@media all and (max-width: 680px) { /*Hasta max los 680px*/
+    #menu-principal{
+
+	}
+
+}
+
+@media all and (min-width: 680px) {
+	#menu-general{
+		min-height: 100%;
+	}
+	#cuerpo-general{
+
+	}
+
+    
+    
+}
