@@ -22,8 +22,6 @@
 package com.domain.portal.auth;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -38,9 +36,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
+import com.domain.portal.model.DocumentType;
 import com.domain.portal.repository.UserRepository;
 import com.domain.portal.service.OpenkmService;
-import com.openkm.sdk4j.bean.Document;
 
 @Service("customLoginSuccessHandler")
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
@@ -62,12 +60,10 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		response.setHeader("x-frame-options", "allow");
 		log.debug("Session: {}", session);
 		try {
 			session.setAttribute("user", userRepository.findByUsername(authentication.getName()));
-			List<Document> documents = okmService.getDocuments(authentication.getName());
-			Collections.sort(documents, documentsComparator);
+			List<DocumentType> documents = okmService.getDocuments(authentication.getName());
 			session.setAttribute("documents", documents);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,12 +71,5 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		log.debug("Data charged for user: {}" + authentication.getName());
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
-
-	private Comparator<Document> documentsComparator = new Comparator<Document>() {
-		@Override
-		public int compare(Document o1, Document o2) {
-			return o1.getCreated().compareTo(o2.getCreated());
-		}
-	};
 
 }

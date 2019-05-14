@@ -15,7 +15,7 @@
 <meta name="author" content="">
 
 <title>Log in with your account</title>
-
+<jsp:include page="include/header.jsp"></jsp:include>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -24,55 +24,43 @@
 </head>
 
 <body>
-	<jsp:include page="include/header.jsp"></jsp:include>
-		<div id="body" class="d-flex align-content-stretch flex-wrap-reverse">
-			<div id="contentido-sesion" class="p-2">
-				<div id="sesion" class="container">
-
-					<form method="POST" action="${contextPath}/login"
-						class="form-signin">
-						<div id="titulo-sesion" align="center">
-							<h5 id="lg">Iniciar Sesión</h5>
-						</div>
-						<div class="form-group ${error != null ? 'has-error' : ''}">
-							<div class="form-group" id="lg">
-								<label for="exampleInputEmail1">Usuario</label> <input
-									name="username" type="text" class="form-control"
-									placeholder="Por ejemplo: user@cofopri.com.pe" autofocus="true" />
-								<span>${message}</span>
-							</div>
-							<div class="form-group" id="lg">
-								<label for="exampleInputPassword1">Contraseña</label> <input
-									name="password" type="password" class="form-control"
-									placeholder="Por ejemplo:70876623" /> <span>${error}</span>
-							</div>
-							<div class="form-group" id="lg">
-								<label for="exampleFormControlSelect1">Sede</label> <select
-									class="form-control" id="exampleFormControlSelect1">
-									<option>Lima</option>
-									<option>Provincia</option>
-								</select>
-							</div>
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
-							<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar
-								sesión</button>
-						</div>
-					</form>
-
+	<div class="login-left responsive-left">
+		<div class="form">
+			<form method="POST" action="${contextPath}/login" class="form-signin">
+				<div align="center" style="padding-bottom: 30px;">
+					<h5 id="lg">Iniciar Sesión</h5>
 				</div>
-			</div>
+				<div class="form-group">
+					<label for="username">Usuario</label> <input type="text"
+						class="form-control" id="username" name="username"
+						placeholder="Por ejemplo: user@cofopri.com.pe" autofocus="true">
+					<span class="${error != null ? 'has-error' : ''}">${message}</span>
+				</div>
+				<div class="form-group">
+					<label for="password">Contraseña</label> <input name="password"
+						type="password" class="form-control"
+						placeholder="Por ejemplo:70876623" /> <span
+						class="${error != null ? 'has-error' : ''}">${error}</span>
+				</div>
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+				<div align="center" style="text-align: center; width: 200px;">
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar
+						sesión</button>
+				</div>
+			</form>
 		</div>
-		<div id="encabezado-sesion" class="p-2">
-			<img width="65%" src="${ contextPath }/resources/images/logocofo.png">
+	</div>
+	<div class="login-right responsive-right">
+		<div>
+			<img width="100%"
+				src="${ contextPath }/resources/images/logocofo.png">
 			<h5 align="center" id="title">Portal de Boletas de Pago</h5>
 		</div>
+		<img width="100%"
+			src="${ contextPath }/resources/images/logo_mvcs.jpg"
+			style="bottom: 0; height: 50px; width: 250px; margin-top: 60%;">
 	</div>
-
-	</div>
-	<!-- /container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+	<jsp:include page="include/footer.jsp" />
 </body>
 </html>

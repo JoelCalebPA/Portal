@@ -18,7 +18,7 @@ public class Mapper {
 		dt.setCategories(doc.getCategories());
 		dt.setMimeType(doc.getMimeType());
 		dt.setLastModified(doc.getLastModified());
-		dt.setName(PathUtils.getNameWithoutExtension(PathUtils.getName(doc.getPath())));
+		dt.setName(PathUtils.getNameWithoutExtension(dt.getActualVersion().getName()));
 		dt.setDownloadUrl(downloadUrl);
 		return dt;
 	}

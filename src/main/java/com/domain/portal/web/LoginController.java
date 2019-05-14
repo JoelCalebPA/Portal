@@ -70,9 +70,9 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, String error, String logout) {
 		if (error != null)
-			model.addAttribute("error", "Your username and password is invalid.");
+			model.addAttribute("error", "Tu usuario y contraseña son incorrectos.");
 		if (logout != null)
-			model.addAttribute("message", "You have been logged out successfully.");
+			model.addAttribute("message", "Cerraste sesión exitosamente.");
 		return "login";
 	}
 

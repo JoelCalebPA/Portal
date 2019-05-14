@@ -1,8 +1,6 @@
 package com.domain.portal.web;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.domain.portal.config.Config;
 import com.domain.portal.model.DocumentType;
 import com.domain.portal.model.User;
-import com.domain.portal.model.mapper.Mapper;
-import com.openkm.sdk4j.bean.Document;
-import com.openkm.sdk4j.exception.AccessDeniedException;
-import com.openkm.sdk4j.exception.DatabaseException;
-import com.openkm.sdk4j.exception.PathNotFoundException;
-import com.openkm.sdk4j.exception.RepositoryException;
-import com.openkm.sdk4j.exception.UnknowException;
-import com.openkm.sdk4j.exception.WebserviceException;
 
 @Controller
 @SessionAttributes("documents")
@@ -49,22 +39,21 @@ public class UserController {
 	private Config configService;
 
 	@ModelAttribute("documents")
-	public List<Document> documents() {
-		return new ArrayList<Document>();
+	public List<DocumentType> documents() {
+		return new ArrayList<DocumentType>();
 	}
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/user")
-	public ModelAndView getHome(@ModelAttribute("documents") List<Document> documents, HttpServletRequest request) {
+	public ModelAndView getHome(@ModelAttribute("documents") List<DocumentType> documents, HttpServletRequest request) {
 		ModelAndView view;
 		HttpSession session = request.getSession();
 		try {
 			view = new ModelAndView("user/home");
-			documents = (List<Document>) session.getAttribute("documents");
-			session.setAttribute("documents", documents);
-			Document doc = documents.iterator().next();
-			DocumentType docT = Mapper.docToDocType(doc, generatePreviewUrl(doc, request, true));
-			view.addObject("currentDoc", docT);
+			documents = (List<DocumentType>) session.getAttribute("documents");
+			DocumentType doc = documents.iterator().next();
+			doc.setDownloadUrl(generatePreviewUrl(doc, request));
+			view.addObject("currentDoc", doc);
 		} catch (Exception e) {
 			view = new ModelAndView("error");
 			e.printStackTrace();
@@ -74,17 +63,17 @@ public class UserController {
 
 	@SuppressWarnings("unchecked")
 	@GetMapping(path = "/user/record")
-	public ModelAndView getRecord(@ModelAttribute("documents") List<Document> documents, HttpServletRequest request) {
+	public ModelAndView getRecord(@ModelAttribute("documents") List<DocumentType> documents,
+			HttpServletRequest request) {
 		ModelAndView view;
 		HttpSession session = request.getSession();
 		try {
 			view = new ModelAndView("user/record");
-			documents = (List<Document>) session.getAttribute("documents");
-			List<DocumentType> docTypes = new ArrayList<DocumentType>();
-			for (Document doc : documents) {
-				docTypes.add(Mapper.docToDocType(doc, generatePreviewUrl(doc, request, false)));
+			documents = (List<DocumentType>) session.getAttribute("documents");
+			for (DocumentType doc : documents) {
+				doc.setDownloadUrl(generatePreviewUrl(doc, request));
 			}
-			view.addObject("documents", docTypes);
+			view.addObject("documents", documents);
 		} catch (Exception e) {
 			e.printStackTrace();
 			view = new ModelAndView("error");
@@ -107,7 +96,7 @@ public class UserController {
 		return view;
 	}
 
-	private String generatePreviewUrl(Document doc, HttpServletRequest request, boolean attachment) {
+	private String generatePreviewUrl(DocumentType doc, HttpServletRequest request) {
 		StringBuffer previewUrl = new StringBuffer();
 		previewUrl.append(configService.getPreviewKcenterToOpenKMUrl());
 		previewUrl.append("?");
@@ -119,10 +108,7 @@ public class UserController {
 		previewUrl.append(request.getSession().getId());
 		previewUrl.append("?node=");
 		previewUrl.append(doc.getUuid());
-		if (!attachment)
-			previewUrl.append("%26attachment=false");
-		else
-			previewUrl.append("%26attachment=true");
+		previewUrl.append("%26attachment=true");
 		return previewUrl.toString();
 	}
 

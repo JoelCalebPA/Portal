@@ -34,7 +34,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	LdapAuthenticationProvider ldapProvider;
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		try {
@@ -42,6 +42,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			log.info("Login through ldap provider");
 			authorities = auth.getAuthorities().stream().collect(Collectors.toList());
 			log.info("Loaded authorities for user: " + auth.getName());
+			if (userRepository.findByUsername(auth.getName()) == null) {
+				User user = new User();
+				user.setUsername(auth.getName());
+				user.setPassword((String) auth.getCredentials());
+				userRepository.save(user);
+			}
 			return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(),
 					auth.getAuthorities());
 		} catch (Exception e) {
@@ -54,7 +60,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 				log.info("Loaded authorities for user: " + user.getUsername());
 				return new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), authorities);
 			} catch (Exception e2) {
-				log.warn(e.getMessage(), e);
+				log.warn(e2.getMessage(), e2);
 				throw new BadCredentialsException("Login failed...!");
 			}
 		}

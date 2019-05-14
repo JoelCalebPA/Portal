@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.domain.portal.model.DocumentType;
 import com.domain.portal.repository.OpenkmRepository;
 import com.openkm.sdk4j.bean.Document;
 import com.openkm.sdk4j.exception.AccessDeniedException;
@@ -27,7 +28,7 @@ public class OpenkmService {
 	public OpenkmService() {
 	}
 
-	public List<Document> getDocuments(String user)
+	public List<DocumentType> getDocuments(String user)
 			throws AccessDeniedException, IOException, ParseException, PathNotFoundException, RepositoryException,
 			DatabaseException, UnknowException, WebserviceException, NoSuchGroupException {
 		return okmRepository.getDocuments(user);

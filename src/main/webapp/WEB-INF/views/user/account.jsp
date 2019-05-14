@@ -6,13 +6,11 @@
 <head>
 <jsp:include page="../include/header.jsp"></jsp:include>
 </head>
-<body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col">
-				<jsp:include page="../include/menu.jsp"></jsp:include>
-			</div>
-			<div class="col">
+<body class="animsition">
+	<div class="page-wrapper">
+		<jsp:include page="../include/menu.jsp" />
+		<div class="page-container2" style="margin-left:25%">
+			<div class="section__content section__content--p30">
 				<p>${ user.username }</p>
 				<c:forEach var="role" items="${ user.roles }">
 					<p>${ role.name }</p>

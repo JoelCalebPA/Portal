@@ -6,13 +6,11 @@
 <head>
 <jsp:include page="../include/header.jsp" />
 </head>
-<body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col">
-				<jsp:include page="../include/menu.jsp" />
-			</div>
-			<div class="col">
+<body class="animsition">
+	<div class="page-wrapper">
+		<jsp:include page="../include/menu.jsp" />
+		<div class="page-container2" style="margin-left:25%">
+			<div class="section__content section__content--p30">
 				<h2>Welcome to records page ${ user.username}</h2>
 				<div class="container-fluid">
 					<c:forEach var="doc" items="${ documents }">
