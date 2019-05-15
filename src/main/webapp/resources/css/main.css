@@ -1,41 +1,18 @@
-.page-container2 {
-	background: #f2f2f2;
-	padding-left: 300px;
-}
-
-@media ( max-width : 991px) {
-	.page-container2 {
-		position: relative;
-		padding-left: 0;
-	}
-}
-
-/* ----- Section----- */
-section {
+.page-container {
 	position: relative;
+	height: 100%;
+	margin-left: 275px;
+	padding: 10px;
 }
 
-.section__content {
-	position: relative;
-	margin: 0 auto;
-	z-index: 1;
+.record-filter {
+	height: 70px;
+	border-bottom-style: dashed;
+	border-color: gray;
+	text-align: center;
+	padding: 10px;
 }
 
-.section__content--w1830 {
-	max-width: 1830px;
+.record-results {
+	padding: 10px;
 }
-
-.section__content--p30 {
-	padding: 0 30px;
-}
-
-@media ( max-width : 991px) {
-	.section__content--p30 {
-		padding: 0;
-	}
-}
-
-.section__content--p35 {
-	padding: 0 35px;
-}
-

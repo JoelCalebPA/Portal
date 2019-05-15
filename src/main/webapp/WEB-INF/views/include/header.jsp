@@ -6,4 +6,5 @@
 <link rel="stylesheet" href="<c:url value='/resources/vendor/bootstrap-4.1/bootstrap.min.css'/>">
 <link rel="stylesheet" href="<c:url value='/resources/css/menu.css'/>">
 <link rel="stylesheet" href="<c:url value='/resources/css/login.css'/>">
-<link rel="stylesheet" href="<c:url value='/resources/vendor/animsition/animsition.min.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/all.css'/>">

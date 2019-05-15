@@ -54,6 +54,7 @@ public class UserController {
 			DocumentType doc = documents.iterator().next();
 			doc.setDownloadUrl(generatePreviewUrl(doc, request));
 			view.addObject("currentDoc", doc);
+			view.addObject("active", "home");
 		} catch (Exception e) {
 			view = new ModelAndView("error");
 			e.printStackTrace();
@@ -74,6 +75,7 @@ public class UserController {
 				doc.setDownloadUrl(generatePreviewUrl(doc, request));
 			}
 			view.addObject("documents", documents);
+			view.addObject("active", "record");
 		} catch (Exception e) {
 			e.printStackTrace();
 			view = new ModelAndView("error");
@@ -89,6 +91,7 @@ public class UserController {
 			view = new ModelAndView("user/account");
 			User user = (User) session.getAttribute("user");
 			view.addObject("user", user);
+			view.addObject("active", "account");
 		} catch (Exception e) {
 			e.printStackTrace();
 			view = new ModelAndView("error");
@@ -103,7 +106,6 @@ public class UserController {
 		previewUrl.append("mimeType=").append(doc.getMimeType());
 		previewUrl.append("&docUrl=");
 		previewUrl.append(configService.OPENKM_PREVIEW_DOWNLOAD_URL);
-		previewUrl.append("/downloadForPreview");
 		previewUrl.append(";jsessionid=");
 		previewUrl.append(request.getSession().getId());
 		previewUrl.append("?node=");

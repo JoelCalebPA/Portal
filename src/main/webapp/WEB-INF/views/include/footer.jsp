@@ -5,4 +5,3 @@
 <script src="<c:url value='/resources/vendor/jquery-ui.min.js'/>"></script>
 <script src="<c:url value='/resources/vendor/bootstrap-4.1/bootstrap.min.js'/>"></script>
 <script src="<c:url value='/resources/vendor/bootstrap-4.1/popper.min.js'/>"></script>
-<script src="<c:url value='/resources/vendor/animsition/animsition.min.js'/>"></script>
