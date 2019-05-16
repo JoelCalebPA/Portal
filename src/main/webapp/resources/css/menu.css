@@ -1,6 +1,6 @@
 @charset "ISO-8859-1";
 
-.menu {
+#menu {
 	position: fixed;
 	left: 0;
 	background: #2d4191;
@@ -13,7 +13,11 @@
 	width: 275px;
 }
 
-.menu-logo img {
+#menu i {
+	color: #fff;
+}
+
+img {
 	width: 100%;
 	max-width: 300px;
 	height: auto;
@@ -23,14 +27,25 @@
 	background-color: #2d4191;
 	margin-left: 275px;
 	height: 92.38px;
-	padding: auto;
-	text-align: center;
 	color: #fff;
 	text-align: center;
 }
 
 .aesthetic-div h2 {
 	padding: 20px;
+}
+
+.aesthetic-div .menu-mobile {
+	display: none;
+	height: 60px;
+	width: 60px;
+	padding: 16px;
+	cursor: pointer;
+}
+
+.aesthetic-div .logo-mobile {
+	display: none;
+	max-width: 200px;
 }
 
 .account {
@@ -50,15 +65,17 @@
 	color: #2d4191 !important;
 }
 
+.active i {
+	color: #2d4191 !important;
+}
+
 .menu-navbar {
-	text-align: center;
 	display: inline-grid;
 	width: 100%;
 }
 
 .menu-navbar a {
-	text-align: center;
-	padding: 10px;
+	padding: 10px 0px 10px 40px;
 	border-top-style: solid;
 	text-decoration: none;
 	display: inline-block;
@@ -66,12 +83,20 @@
 }
 
 .menu-navbar a:hover {
-	color: #2d4191;
+	color: #2d4191 !important;
 	background-color: #fff !important;
 }
 
+.menu-navbar a:hover i {
+	color: #2d4191 !important;
+}
+
+.closebtn {
+	display: none;
+}
+
 @media ( max-width : 1000px) {
-	.menu {
+	#menu {
 		width: 250px !important;
 	}
 	.menu-logo {
@@ -87,7 +112,7 @@
 }
 
 @media ( max-width : 900px) {
-	.menu {
+	#menu {
 		width: 225px !important;
 	}
 	.menu-logo {
@@ -103,20 +128,37 @@
 }
 
 @media ( max-width : 800px) {
-	.menu {
+	#menu {
 		display: none !important;
+		z-index: 99999;
+		overflow-x: hidden;
+		transition: 0.5s;
 	}
 	.menu-logo {
-		width: 250px !important;
+		display: none !important;
 	}
 	.page-container {
 		margin-left: 0px !important;
 	}
 	.aesthetic-div {
+		width: 100%;
+		display: inline-flex;
 		margin-left: 0px !important;
 		height: 60px !important;
+		background-color: #fff !important;
+	}
+	.aesthetic-div h2 {
+		display: none;
 	}
 	.menu-mobile {
-		
+		display: inline-flex !important;
+	}
+	.logo-mobile {
+		display: inline-flex !important;
+		position: absolute;
+		right: 0px;
+	}
+	.closebtn {
+		display: inline-block;
 	}
 }

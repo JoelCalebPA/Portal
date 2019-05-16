@@ -18,8 +18,9 @@
 
 		<h3>here is your document: ${ currentDoc.name }</h3>
 		<h3>here is your preview:</h3>
-		<iframe id="preview-doc" src="${ currentDoc.downloadUrl }"
-			style="width: 99%; border: 0px; height: 99%; display: inline;"></iframe>
+		<embed showcontrols="false"
+			src="${ contextPath }/Preview?node=${ currentDoc.uuid }"
+			type="application/pdf" width="100%" height="350">
 	</div>
 	<jsp:include page="../include/footer.jsp" />
 </body>

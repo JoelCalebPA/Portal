@@ -2,7 +2,7 @@
 	position: relative;
 	height: 100%;
 	margin-left: 275px;
-	padding: 10px;
+	padding: 30px;
 }
 
 .record-filter {
@@ -15,4 +15,26 @@
 
 .record-results {
 	padding: 10px;
+}
+.yo-icons {
+	color: #ffdd00;
+}
+
+
+.account-header {
+	height: 50px;
+	border-bottom-style: dashed;
+	border-color: gray;
+	padding: 10px;
+	text-transform: uppercase;
+}
+
+.account-information {
+	padding: 10px;
+}
+
+i {
+	color: #2d4191;
+	font-size: xx-large !important;
+	margin-right: 10px;
 }

@@ -9,11 +9,40 @@
 <body>
 	<jsp:include page="../include/menu.jsp" />
 	<div class="page-container">
-		<p>${ user.username }</p>
-		<c:forEach var="role" items="${ user.roles }">
-			<p>${ role.name }</p>
-		</c:forEach>
-		<p>${ user.password }</p>
+		<div class="account-header">
+			<div class="form-group mb-2">
+				<label>Información</label>
+			</div>
+		</div>
+		<div class="account-information">
+			<div class="form-group mb-2">
+				<label>Nombre: </label> <label>${ user.username }</label>
+			</div>
+			<div class="form-group mb-2">
+				<label>Usuario: </label>
+				<c:forEach var="role" items="${ user.roles }">
+					<label>${ role.name }</label>
+				</c:forEach>
+			</div>
+		</div>
+		<div class="account-header">
+			<div class="form-group mb-2">
+				<label>Cambiar Contraseña</label>
+			</div>
+		</div>
+		<div class="account-information">
+			<div class="form-group mb-2">
+				<label>Actual contraseña: </label> <input class="form-control"
+					type="password" />
+			</div>
+			<div class="form-group mb-2">
+				<label>Nueva contraseña: </label> <input class="form-control"
+					type="password" />
+			</div>
+			<div class="form-group mb-2">
+				<input type="button" class="btn btn-primary" value="Cambiar" />
+			</div>
+		</div>
 	</div>
 	<jsp:include page="../include/footer.jsp"></jsp:include>
 </body>

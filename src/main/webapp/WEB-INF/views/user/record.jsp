@@ -30,21 +30,21 @@
 		</div>
 		<div class="record-results">
 			<p>Se han encontrado ${ num } documentos.</p>
-			<div class="container-fluid">
-				<c:forEach var="doc" items="${ documents }">
-					<div class="row">
-						<div class="col">s
-							<i class="fas fa-file-pdf"></i>
-						</div>
-						<div class="col">${ doc.name }</div>
-						<div class="col">
-							<a href="${ contextPath }/Download?node=${doc.uuid}">
-								Descargar </a>
-						</div>
-					</div>
-				</c:forEach>
+			<div class="table-responsive">
+				<table class="table">
+					<tbody>
+						<c:forEach var="doc" items="${ documents }">
+							<tr>
+								<td><i class="fa fa-file-text" aria-hidden="true"></i> ${ doc.name }</td>
+								<td><i class="fa fa-eye yo-icons" aria-hidden="true"></i></td>
+								<td><i class="fa fa-download yo-icons" aria-hidden="true"></i></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		</div>
-		<jsp:include page="../include/footer.jsp" />
+	</div>
+	<jsp:include page="../include/footer.jsp" />
 </body>
 </html>
