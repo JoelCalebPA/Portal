@@ -24,10 +24,13 @@
 </head>
 
 <body>
+	<div class="login-logo">
+		<img width="100%" src="${ contextPath }/resources/images/logocofo.png">
+	</div>
 	<div class="login-left responsive-left">
 		<div class="form">
 			<form method="POST" action="${contextPath}/login" class="form-signin">
-				<div align="center" style="padding-bottom: 30px;">
+				<div align="center">
 					<h5 id="lg">Iniciar Sesión</h5>
 				</div>
 				<div class="form-group">
@@ -50,6 +53,11 @@
 				</div>
 			</form>
 		</div>
+	</div>
+	<div class="login-footer">
+		<img width="100%"
+			src="${ contextPath }/resources/images/logo_mvcs.jpg"
+			style="bottom: 0; height: 50px; width: 250px;">
 	</div>
 	<div class="login-right responsive-right">
 		<div>

@@ -6,7 +6,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <aside id="menu">
-	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i
+	<a href="javascript:void(0)" class="closebtn" id="closeNav"><i
 		class="fa fa-times" aria-hidden="true"></i></a>
 	<div class="menu-logo">
 		<a href="${ contextPath }"> <img
@@ -40,19 +40,9 @@
 </aside>
 <div class="aesthetic-div">
 	<div class="menu-mobile">
-		<a href="javascript:void(0)" onclick="openNav()"><i
-			class="fa fa-bars" aria-hidden="true"></i></a>
+		<a id="openNav"><i class="fa fa-bars" aria-hidden="true"></i></a>
 	</div>
 	<h2>Portal de Boletas</h2>
 	<img class="logo-mobile"
 		src="${ contextPath }/resources/images/logocofo.png" />
 </div>
-<script>
-	function openNav() {
-		document.getElementById("menu").style.display = "block !important";
-	}
-
-	function closeNav() {
-		document.getElementById("menu").style.display = "none !important";
-	}
-</script>

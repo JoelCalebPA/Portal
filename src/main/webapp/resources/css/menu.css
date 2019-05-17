@@ -2,11 +2,15 @@
 
 #menu {
 	position: fixed;
+	top: 0;
 	left: 0;
-	background: #2d4191;
+	background-color: #2d4191;
 	color: #fff;
 	height: 100%;
 	width: 275px;
+	z-index: 1;
+	overflow: auto;
+	overflow-x: hidden;
 }
 
 .menu-logo {
@@ -19,8 +23,11 @@
 
 img {
 	width: 100%;
-	max-width: 300px;
+	max-width: 250px;
 	height: auto;
+}
+#menu img {
+	max-width: 300px;
 }
 
 .aesthetic-div {
@@ -69,17 +76,13 @@ img {
 	color: #2d4191 !important;
 }
 
-.menu-navbar {
-	display: inline-grid;
-	width: 100%;
-}
-
 .menu-navbar a {
 	padding: 10px 0px 10px 40px;
 	border-top-style: solid;
 	text-decoration: none;
-	display: inline-block;
+	display: block	;
 	color: #fff;
+	transition: 0.3s;
 }
 
 .menu-navbar a:hover {
@@ -93,11 +96,31 @@ img {
 
 .closebtn {
 	display: none;
+	height: 60px;
+	width: 60px;
+	padding: 16px;
 }
 
-@media ( max-width : 1000px) {
+/* @media screen and ( min-width :1000px) { */
+/* 	#menu { */
+/* 		width: 275px ; */
+/* 	} */
+/* } */
+
+/* @media ( min-width :900px) { */
+/* 	#menu { */
+/* 		width: 250px ; */
+/* 	} */
+/* } */
+
+/* @media ( min-width :800px) { */
+/* 	#menu { */
+/* 		width: 225px !important; */
+/* 	} */
+/* } */
+@media screen and ( max-width : 1000px) {
 	#menu {
-		width: 250px !important;
+		width: 250px;
 	}
 	.menu-logo {
 		width: 250px !important;
@@ -111,9 +134,9 @@ img {
 	}
 }
 
-@media ( max-width : 900px) {
+@media screen and ( max-width : 900px) {
 	#menu {
-		width: 225px !important;
+		width: 225px;
 	}
 	.menu-logo {
 		width: 225px !important;
@@ -127,18 +150,16 @@ img {
 	}
 }
 
-@media ( max-width : 800px) {
+@media screen and ( max-width : 800px) {
 	#menu {
-		display: none !important;
-		z-index: 99999;
-		overflow-x: hidden;
-		transition: 0.5s;
+		width: 0px;
 	}
 	.menu-logo {
 		display: none !important;
 	}
 	.page-container {
 		margin-left: 0px !important;
+		padding: 15px !important;
 	}
 	.aesthetic-div {
 		width: 100%;
@@ -161,4 +182,14 @@ img {
 	.closebtn {
 		display: inline-block;
 	}
+}
+
+.show-menu {
+	width: 225px !important;
+	transition: 0.5s;
+}
+
+.hide-menu {
+	width: 0px !important;
+	transition: 0.5s;
 }

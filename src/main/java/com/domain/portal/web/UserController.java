@@ -140,7 +140,7 @@ public class UserController {
 			sos.flush();
 			sos.close();
 		} catch (Exception e) {
-			logger.error("Previsualización de boleta cancelada");
+			logger.info("Previsualización de boleta cancelada");
 		}
 		return null;
 	}

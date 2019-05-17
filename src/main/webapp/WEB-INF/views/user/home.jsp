@@ -16,7 +16,8 @@
 			<p>${ role.name }</p>
 		</c:forEach>
 
-		<h3>here is your document: ${ currentDoc.name }</h3>
+		<h3>here is your document: </h3>
+		${ currentDoc.name }
 		<h3>here is your preview:</h3>
 		<embed showcontrols="false"
 			src="${ contextPath }/Preview?node=${ currentDoc.uuid }"
