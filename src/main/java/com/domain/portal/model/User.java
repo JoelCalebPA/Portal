@@ -6,10 +6,10 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User {
+	
 	private Long id;
 	private String username;
 	private String password;
-	private String passwordConfirm;
 	private Set<Role> roles;
 
 	@Id
@@ -36,15 +36,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	@Transient
-	public String getPasswordConfirm() {
-		return passwordConfirm;
-	}
-
-	public void setPasswordConfirm(String passwordConfirm) {
-		this.passwordConfirm = passwordConfirm;
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER)

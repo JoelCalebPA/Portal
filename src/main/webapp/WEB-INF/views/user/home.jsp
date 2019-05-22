@@ -10,16 +10,21 @@
 	<jsp:include page="../include/menu.jsp" />
 
 	<div class="page-container">
-		<h2>Welcom to da home page ma boi
-			${pageContext.request.userPrincipal.name}</h2>
-		<c:forEach var="role" items="${ user.roles }">
-			<p>${ role.name }</p>
-		</c:forEach>
-
-		<h3>here is your document: </h3>
-		${ currentDoc.name }
-		<h3>here is your preview:</h3>
-		<embed showcontrols="false"
+		<div class="record-filter">
+			<form class="form-inline">
+				<div class="form-group mb-2">
+					<label>Tipo de contrato</label>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<select class="form-control">
+						<option>CAS</option>
+					</select>
+				</div>
+				<button type="submit" class="form-group btn btn-primary mb-2"
+					style="background-color: #ffdd00; color: #2d4191;">Descargar</button>
+			</form>
+		</div>
+		<embed showcontrols="false" style="margin-top: 15px;"
 			src="${ contextPath }/Preview?node=${ currentDoc.uuid }"
 			type="application/pdf" width="100%" height="350">
 	</div>

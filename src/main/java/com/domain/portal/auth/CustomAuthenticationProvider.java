@@ -1,7 +1,7 @@
 package com.domain.portal.auth;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -36,11 +36,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	@Transactional
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		List<GrantedAuthority> authorities = new ArrayList<>();
+		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		try {
 			Authentication auth = ldapProvider.authenticate(authentication);
 			log.info("Login through ldap provider");
-			authorities = auth.getAuthorities().stream().collect(Collectors.toList());
+			grantedAuthorities = auth.getAuthorities().stream().collect(Collectors.toSet());
 			log.info("Loaded authorities for user: " + auth.getName());
 			if (userRepository.findByUsername(auth.getName()) == null) {
 				User user = new User();
@@ -48,17 +48,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 				user.setPassword((String) auth.getCredentials());
 				userRepository.save(user);
 			}
-			return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(),
-					auth.getAuthorities());
+			return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(), grantedAuthorities);
 		} catch (Exception e) {
 			try {
 				log.info("Login through jdbc provider");
 				User user = userRepository.findByUsername(authentication.getName());
 				for (Role role : user.getRoles()) {
-					authorities.add(new SimpleGrantedAuthority(role.getName()));
+					grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
 				}
 				log.info("Loaded authorities for user: " + user.getUsername());
-				return new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), authorities);
+				return new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(),
+						grantedAuthorities);
 			} catch (Exception e2) {
 				log.warn(e2.getMessage(), e2);
 				throw new BadCredentialsException("Login failed...!");

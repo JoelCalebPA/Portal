@@ -24,40 +24,44 @@
 </head>
 
 <body>
-	<div class="login-logo">
-		<img width="100%" src="${ contextPath }/resources/images/logocofo.png">
-	</div>
 	<div class="login-left responsive-left">
-		<div class="form">
-			<form method="POST" action="${contextPath}/login" class="form-signin">
-				<div align="center">
-					<h5 id="lg">Iniciar Sesión</h5>
-				</div>
-				<div class="form-group">
-					<label for="username">Usuario</label> <input type="text"
-						class="form-control" id="username" name="username"
-						placeholder="Por ejemplo: user@cofopri.com.pe" autofocus="true">
-					<span class="${error != null ? 'has-error' : ''}">${message}</span>
-				</div>
-				<div class="form-group">
-					<label for="password">Contraseña</label> <input name="password"
-						type="password" class="form-control"
-						placeholder="Por ejemplo:70876623" /> <span
-						class="${error != null ? 'has-error' : ''}">${error}</span>
-				</div>
-				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}" />
-				<div align="center" style="text-align: center; width: 200px;">
-					<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar
-						sesión</button>
-				</div>
-			</form>
+		<div class="login-logo">
+			<img width="100%"
+				src="${ contextPath }/resources/images/logocofo.png">
 		</div>
-	</div>
-	<div class="login-footer">
-		<img width="100%"
-			src="${ contextPath }/resources/images/logo_mvcs.jpg"
-			style="bottom: 0; height: 50px; width: 250px;">
+		<div class="form">
+			<div class="wrapper">
+				<form method="POST" action="${contextPath}/login"
+					class="form-signin">
+					<div align="center">
+						<h5 id="lg">Iniciar Sesión</h5>
+					</div>
+					<div class="form-group">
+						<label for="username">Usuario</label> <input type="text"
+							class="form-control" id="username" name="username"
+							placeholder="Por ejemplo: user@cofopri.com.pe" autofocus="true">
+						<span class="${error != null ? 'has-error' : ''}">${message}</span>
+					</div>
+					<div class="form-group">
+						<label for="password">Contraseña</label> <input name="password"
+							type="password" class="form-control"
+							placeholder="Por ejemplo:70876623" /> <span
+							class="${error != null ? 'has-error' : ''}">${error}</span>
+					</div>
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+					<div>
+						<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar
+							sesión</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="login-footer">
+			<img width="100%"
+				src="${ contextPath }/resources/images/logo_mvcs.jpg"
+				style="bottom: 0; height: 50px; width: 250px;">
+		</div>
 	</div>
 	<div class="login-right responsive-right">
 		<div>

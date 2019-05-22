@@ -1,0 +1,107 @@
+.menu {
+	position: absolute;
+	height: 100%;
+	background-color: #2d4191;
+	width: 25%;
+	z-index: 99;
+}
+
+.menu ul {
+	padding-top: 100px;
+}
+
+.account {
+	text-align: center;
+	padding: 20% 20px;
+}
+
+.menu .nav-item {
+	padding-left: 15px;
+	border-bottom-style: solid;
+	border-bottom-width: thin;
+	border-bottom-color: #fff;
+}
+.active {
+	background-color: #fff;
+}
+.active:yes (.nav-link) {
+	color: #2d4191;
+}
+
+.menu .nav-link {
+	color: #fff;
+}
+
+.menu .nav-item:first-child {
+	border-top-style: solid;
+	border-top-color: #fff;
+	border-top-width: thin;
+}
+
+.responsive-menu {
+	position: absolute;
+	background-color: #fff;
+	width: 100%;
+	height: 85px;
+	padding: 0px 15px;
+	z-index: 90;
+	display: flex;
+	justify-content: space-between;
+}
+
+.logo-h {
+	float: right;
+}
+
+.logo-h img {
+	max-height: 75px;
+}
+
+@media ( max-width : 700px) {
+	.navbar-toggler[aria-expanded="true"] span:first-child {
+		transform: rotate(-45deg);
+		position: relative;
+		top: 7.5px;
+	}
+	.navbar-toggler[aria-expanded="true"] span:nth-child(2) {
+		opacity: 0;
+	}
+	.navbar-toggler[aria-expanded="true"] span:last-child {
+		transform: rotate(45deg);
+		bottom: 6px;
+		position: relative;
+	}
+}
+
+@media ( min-width : 700px) {
+	.menu .navbar {
+		max-height: 340px;
+		display: flex;
+	}
+	.menu {
+		z-index: 99;
+		display: block !important;
+	}
+}
+
+@media ( max-width : 700px) {
+	.navbar-toggler span {
+		display: block;
+		width: 25px;
+		height: 3px;
+		background: #2d4191;
+		margin: auto;
+		margin-bottom: 4px;
+		transition: all 300ms linear;
+		cursor: pointer;
+	}
+	.page-container {
+		width: 100% !important;
+	}
+	.menu {
+		padding-top: 85px;
+		width: 250px;
+		z-index: 80;
+		transition: all 300ms linear;
+	}
+}

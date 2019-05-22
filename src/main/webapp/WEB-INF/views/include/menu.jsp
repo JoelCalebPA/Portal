@@ -31,7 +31,6 @@
 				href="${ contextPath }/user/record"> <i class="fa fa-book"
 				aria-hidden="true"></i>Historial
 			</a> <a class="${ active == 'account' ? 'active' : '' }"
-				style="border-bottom-style: solid;"
 				href="${ contextPath }/user/account"> <i class="fa fa-user"
 				aria-hidden="true"></i>Mi Cuenta
 			</a>

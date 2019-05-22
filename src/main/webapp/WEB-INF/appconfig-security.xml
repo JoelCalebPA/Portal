@@ -22,7 +22,7 @@
 		<form-login login-page="/login"
 			default-target-url="/redirect"
 			authentication-failure-url="/login?error"
-			authentication-success-handler-ref="customLoginSuccessHandler" 
+			authentication-success-handler-ref="customLoginSuccessHandler"
 			username-parameter="username" password-parameter="password" />
 		<logout logout-success-url="/login?logout" />
 	</http>
@@ -39,6 +39,14 @@
 		<authentication-provider
 			ref="customAuthenticationProvider">
 		</authentication-provider>
+		<!-- <authentication-provider> -->
+		<!-- <jdbc-user-service data-source-ref="dataSource" -->
+		<!-- users-by-username-query="select username, password from user where 
+			username=?" -->
+		<!-- authorities-by-username-query="select u.username, r.role from user 
+			u inner join user_role ur on(u.user_id=ur.user_id) inner join role r on(ur.role_id=r.role_id) 
+			where u.username=?" /> -->
+		<!-- </authentication-provider> -->
 		<!-- <authentication-provider -->
 		<!-- user-service-ref="userDetailsServiceImpl"> -->
 		<!-- <password-encoder ref="encoder" /> -->
@@ -96,7 +104,7 @@
 	</beans:bean>
 
 	<beans:bean id="userDetailsServiceImpl"
-		class="com.domain.portal.service.UserDetailsServiceImpl"></beans:bean>
+	class="com.domain.portal.service.UserDetailsServiceImpl"></beans:bean>
 
 	<beans:bean id="encoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">

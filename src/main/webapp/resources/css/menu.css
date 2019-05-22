@@ -67,7 +67,6 @@ img {
 }
 
 .active {
-	border-top-style: solid;
 	background-color: #fff !important;
 	color: #2d4191 !important;
 }
@@ -84,10 +83,14 @@ img {
 	color: #fff;
 	transition: 0.3s;
 }
+.menu-navbar a:last-child {
+	border-bottom-style: solid;
+}
 
 .menu-navbar a:hover {
 	color: #2d4191 !important;
 	background-color: #fff !important;
+	border-color: #2d4191;
 }
 
 .menu-navbar a:hover i {

@@ -6,20 +6,18 @@
 }
 
 .record-filter {
-	height: 70px;
 	border-bottom-style: dashed;
 	border-color: gray;
 	text-align: center;
-	padding: 10px;
 }
 
 .record-results {
 	padding: 10px;
 }
+
 .yo-icons {
 	color: #ffdd00;
 }
-
 
 .account-header {
 	height: 50px;
@@ -37,4 +35,13 @@ i {
 	color: #2d4191;
 	font-size: xx-large !important;
 	margin-right: 10px;
+}
+
+@media ( max-width : 800px) {
+	.page-container .form-inline {
+		justify-content: space-around;
+	}
+	.mb-2 {
+		margin: auto 0;
+	}
 }
