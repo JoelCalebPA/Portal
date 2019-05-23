@@ -21,35 +21,33 @@
 
 package com.domain.portal.auth;
 
-//import com.openkm.cache.WSCacheDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
-import org.springframework.stereotype.Service;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+//import com.openkm.cache.WSCacheDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import org.springframework.stereotype.Service;
 
 /**
- * This class extends and implements spring-security classes to intercept and handle the logout process
- * in order to execute custom actions, for example, to evict cache of logged out user and to control
- * the template to see after a successful logout
+ * This class extends and implements spring-security classes to intercept and
+ * handle the logout process in order to execute custom actions, for example, to
+ * evict cache of logged out user and to control the template to see after a
+ * successful logout
  */
 @Service("customLogoutSuccessHandler")
 public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 	private static final Logger log = LoggerFactory.getLogger(CustomLogoutSuccessHandler.class);
 
-//	private WSCacheDAO wsCache;
-
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		if (authentication != null && authentication.getDetails() != null) {
-//			wsCache.evictOKMWebservices(authentication.getName());
 			log.debug("session before invalidate : " + request.getSession().getCreationTime());
 			request.getSession(false).invalidate();
 			log.debug("invalidate session");

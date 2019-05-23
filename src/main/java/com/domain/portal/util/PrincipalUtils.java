@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,24 +12,23 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.domain.portal.auth.CustomUser;
+import com.domain.portal.model.User;
 
 public class PrincipalUtils {
 	
-	private static Logger log = LoggerFactory.getLogger(PrincipalUtils.class);
 	private static final String ROLE_PREFIX = "ROLE_";
 
-	public static CustomUser getUser() {
+	public static User getUser() {
 		Authentication auth = getAuthentication();
 		return getUser(auth);
 	}
 
-	public static CustomUser getUser(Authentication auth) {
-		CustomUser user = null;
+	public static User getUser(Authentication auth) {
+		User user = null;
 
 		if (auth != null) {
-			if (auth.getPrincipal() instanceof CustomUser) {
-				user = (CustomUser) auth.getPrincipal();
+			if (auth.getPrincipal() instanceof User) {
+				user = (User) auth.getPrincipal();
 			}
 		}
 

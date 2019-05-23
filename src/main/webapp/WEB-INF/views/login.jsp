@@ -33,13 +33,14 @@
 			<div class="wrapper">
 				<form method="POST" action="${contextPath}/login"
 					class="form-signin">
-					<div align="center">
-						<h5 id="lg">Iniciar Sesión</h5>
+					<div class="acc-img">
+						<img src="${ contextPath }/resources/images/login blanco.png">
+						<p>${ role.name }</p>
 					</div>
 					<div class="form-group">
 						<label for="username">Usuario</label> <input type="text"
 							class="form-control" id="username" name="username"
-							placeholder="Por ejemplo: user@cofopri.com.pe" autofocus="true">
+							placeholder="Por ejemplo: user@cofopri.com.pe" autofocus="autofocus">
 						<span class="${error != null ? 'has-error' : ''}">${message}</span>
 					</div>
 					<div class="form-group">
@@ -64,14 +65,23 @@
 		</div>
 	</div>
 	<div class="login-right responsive-right">
-		<div>
+		<div class="right-logo">
 			<img width="100%"
 				src="${ contextPath }/resources/images/logocofo.png">
 			<h5 align="center" id="title">Portal de Boletas de Pago</h5>
 		</div>
-		<img width="100%"
-			src="${ contextPath }/resources/images/logo_mvcs.jpg"
-			style="bottom: 0; height: 50px; width: 250px; margin-top: 60%;">
+		<div class="right-footer">
+			<div class="fo-1">
+				<span>Av. Paseo de la República 3135 - 3137,San Isidro, Lima,
+					Perú </span><br> <span>Horario de atención: L-V de 8:30 a.m. a
+					4:30 p.m. </span><br> <span>Central telefónica: 319-3838 </span>
+			</div>
+			<div class="fo-2">
+				<img width="100%"
+					src="${ contextPath }/resources/images/logo_mvcs.jpg"
+					style="width: auto;">
+			</div>
+		</div>
 	</div>
 	<jsp:include page="include/footer.jsp" />
 </body>
