@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.domain.portal.dao.UsuarioDao;
 import com.domain.portal.model.User;
 import com.domain.portal.service.SecurityService;
 import com.domain.portal.service.UserService;
@@ -29,6 +30,9 @@ public class LoginController {
 
 	@Autowired
 	private UserValidator userValidator;
+
+	@Autowired
+	private UsuarioDao uDao;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String registration(Model model) {
@@ -73,6 +77,7 @@ public class LoginController {
 			model.addAttribute("error", "Tu usuario y contraseña son incorrectos.");
 		if (logout != null)
 			model.addAttribute("message", "Cerraste sesión exitosamente.");
+		model.addAttribute("roles", uDao.getRoles());
 		return "login";
 	}
 

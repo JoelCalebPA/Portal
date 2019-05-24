@@ -68,6 +68,9 @@
 			<img width="100%"
 				src="${ contextPath }/resources/images/logocofo.png">
 			<h5 align="center" id="title">Portal de Boletas de Pago</h5>
+			<c:forEach var="rol" items="${ roles }">
+				<p>${ rol }</p>
+			</c:forEach>
 		</div>
 		<img width="100%"
 			src="${ contextPath }/resources/images/logo_mvcs.jpg"
