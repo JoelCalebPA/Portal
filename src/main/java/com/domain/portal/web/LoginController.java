@@ -1,12 +1,6 @@
 package com.domain.portal.web;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,17 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.domain.portal.dao.UsuarioDao;
 import com.domain.portal.model.User;
-import com.domain.portal.service.SecurityService;
-import com.domain.portal.service.UserService;
 import com.domain.portal.validator.UserValidator;
 
 @Controller
 public class LoginController {
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private SecurityService securityService;
 
 	@Autowired
 	private UserValidator userValidator;
@@ -37,20 +24,19 @@ public class LoginController {
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String registration(Model model) {
 		model.addAttribute("userForm", new User());
-
 		return "registration";
 	}
 
-//	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-//	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
-//		userValidator.validate(userForm, bindingResult);
-//		if (bindingResult.hasErrors()) {
-//			return "registration";
-//		}
-//		userService.save(userForm);
-//		securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
-//		return "redirect:/user";
-//	}
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+		userValidator.validate(userForm, bindingResult);
+		if (bindingResult.hasErrors()) {
+			return "registration";
+		}
+		uDao.saveUser(userForm);
+//		securityService.autologin(userForm.getUsuario(), userForm.getPassword());
+		return "redirect:/login";
+	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
@@ -77,7 +63,6 @@ public class LoginController {
 			model.addAttribute("error", "Tu usuario y contraseña son incorrectos.");
 		if (logout != null)
 			model.addAttribute("message", "Cerraste sesión exitosamente.");
-		model.addAttribute("roles", uDao.getRoles());
 		return "login";
 	}
 

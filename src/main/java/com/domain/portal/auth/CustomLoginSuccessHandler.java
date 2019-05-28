@@ -36,8 +36,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
+import com.domain.portal.dao.UsuarioDao;
 import com.domain.portal.model.DocumentType;
-import com.domain.portal.repository.UserRepository;
 import com.domain.portal.service.OpenkmService;
 
 @Service("customLoginSuccessHandler")
@@ -45,7 +45,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 	private static final Logger log = LoggerFactory.getLogger(CustomLoginSuccessHandler.class);
 
 	@Autowired
-	private UserRepository userRepository;
+	private UsuarioDao uDao;
 
 	@Autowired
 	private OpenkmService okmService;
@@ -62,7 +62,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		HttpSession session = request.getSession();
 		log.debug("Session: {}", session);
 		try {
-			session.setAttribute("user", userRepository.findByUsername(authentication.getName()));
+			session.setAttribute("user", uDao.findUser(authentication.getName()));
 			List<DocumentType> documents = okmService.getDocuments(authentication.getName());
 			session.setAttribute("documents", documents);
 		} catch (Exception e) {

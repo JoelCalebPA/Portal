@@ -1,13 +1,19 @@
 package com.domain.portal.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
 
-/**
- * The persistent class for the SEDE database table.
- * 
- */
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 @Entity
 @Table(name = "sede")
 @NamedQuery(name = "Sede.findAll", query = "SELECT s FROM Sede s")
@@ -22,9 +28,8 @@ public class Sede implements Serializable {
 
 	private String nombre;
 
-	// bi-directional many-to-one association to Usuario
-	@OneToMany(mappedBy = "sede")
-	private List<Usuario> usuarios;
+	@OneToOne(mappedBy = "sede", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	private User usuario;
 
 	public Sede() {
 	}
@@ -45,26 +50,12 @@ public class Sede implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return this.usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-
-	public Usuario addUsuario(Usuario usuario) {
-		getUsuarios().add(usuario);
-		usuario.setSede(this);
-
+	public User getUser() {
 		return usuario;
 	}
 
-	public Usuario removeUsuario(Usuario usuario) {
-		getUsuarios().remove(usuario);
-		usuario.setSede(null);
-
-		return usuario;
+	public void setUser(User user) {
+		this.usuario = user;
 	}
 
 }

@@ -16,13 +16,10 @@
 		</div>
 		<div class="account-information">
 			<div class="form-group mb-2">
-				<label>Nombre: </label> <label>${ user.username }</label>
+				<label>Nombre: </label> <label>${ user.usuario }</label>
 			</div>
 			<div class="form-group mb-2">
-				<label>Usuario: </label>
-				<c:forEach var="role" items="${ user.roles }">
-					<label>${ role.name }</label>
-				</c:forEach>
+				<label>Usuario: </label> <label>${ user.rol.nombre }</label>
 			</div>
 		</div>
 		<div class="account-header">

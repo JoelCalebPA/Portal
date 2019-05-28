@@ -32,20 +32,8 @@ import com.openkm.sdk4j.bean.Document;
 public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
-//	@Autowired
-//	@Qualifier(value = "entityManagerFactory")
-//	EntityManagerFactory entityManagerFactory;
-//	
-//	@Autowired
-//	@Qualifier(value = "transactionManager")
-//	JpaTransactionManager transactionManager;
-//
 	@Autowired
 	private OpenkmService okmService;
-//
-//	@Autowired
-//	private UserRepository userRepository;
 
 	@Autowired
 	private Config configService;
@@ -68,7 +56,8 @@ public class UserController {
 			view.addObject("currentDoc", doc);
 			view.addObject("active", "home");
 		} catch (Exception e) {
-			view = new ModelAndView("error");
+			view = new ModelAndView("user/home");
+			view.addObject("noDocs", true);
 			e.printStackTrace();
 		}
 		return view;
