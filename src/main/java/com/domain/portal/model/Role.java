@@ -1,6 +1,7 @@
 package com.domain.portal.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,6 +23,7 @@ import javax.persistence.Table;
 		@NamedQuery(name = "Role.find", query = "SELECT r FROM Role r WHERE r.idRol=:idRol") })
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@SequenceGenerator(name = "ROL_ID_GENERATOR", sequenceName = "rol_sequence", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROL_ID_GENERATOR")
@@ -30,8 +32,8 @@ public class Role implements Serializable {
 
 	private String nombre;
 
-	@OneToOne(mappedBy = "rol", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-	private User usuario;
+	@OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<User> usuarios;
 
 	public Role() {
 	}
@@ -52,12 +54,20 @@ public class Role implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public User getUser() {
-		return usuario;
+	public List<User> getUsuarios() {
+		return usuarios;
 	}
 
-	public void setUser(User user) {
-		this.usuario = user;
+	public void setUsuarios(List<User> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public void addUsuario(User user) {
+		this.usuarios.add(user);
+	}
+
+	public void removeUsuario(User user) {
+		this.usuarios.remove(user);
 	}
 
 }

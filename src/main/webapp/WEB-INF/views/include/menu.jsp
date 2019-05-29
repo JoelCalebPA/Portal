@@ -24,16 +24,27 @@
 				Sesión</a>
 		</div>
 		<nav class="menu-navbar">
-			<a class="${ active == 'home' ? 'active' : '' }"
-				href="${ contextPath }/user"> <i class="fa fa-home"
-				aria-hidden="true"></i>Boleta Actual
-			</a> <a class="${ active == 'record' ? 'active' : '' }"
-				href="${ contextPath }/user/record"> <i class="fa fa-book"
-				aria-hidden="true"></i>Historial
-			</a> <a class="${ active == 'account' ? 'active' : '' }"
-				href="${ contextPath }/user/account"> <i class="fa fa-user"
-				aria-hidden="true"></i>Mi Cuenta
-			</a>
+			<sec:authorize access="isFullyAuthenticated()">
+				<a class="${ active == 'home' ? 'active' : '' }"
+					href="${ contextPath }/user"> <i class="fa fa-home"
+					aria-hidden="true"></i>Boleta Actual
+				</a>
+				<a class="${ active == 'record' ? 'active' : '' }"
+					href="${ contextPath }/user/record"> <i class="fa fa-book"
+					aria-hidden="true"></i>Historial
+				</a>
+				<a class="${ active == 'account' ? 'active' : '' }"
+					href="${ contextPath }/user/account"> <i class="fa fa-user"
+					aria-hidden="true"></i>Mi Cuenta
+				</a>
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<a class="" href="#">Administrador</a>
+				<a class="${ active == 'home' ? 'active' : '' }"
+					href="${ contextPath }/admin"> <i class="fa fa-book"
+					aria-hidden="true"></i>Usuarios
+				</a>
+			</sec:authorize>
 		</nav>
 	</div>
 </aside>

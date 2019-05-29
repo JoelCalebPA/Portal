@@ -6,13 +6,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.domain.portal.dao.UsuarioDao;
 import com.domain.portal.model.User;
+import com.domain.portal.service.UserService;
 
 @Component
 public class UserValidator implements Validator {
 	@Autowired
-	private UsuarioDao uDao;
+	private UserService userService;
 
 	@Override
 	public boolean supports(Class<?> aClass) {
@@ -27,7 +27,7 @@ public class UserValidator implements Validator {
 		if (user.getUsuario().length() < 6 || user.getUsuario().length() > 32) {
 			errors.rejectValue("usuario", "Size.userForm.username");
 		}
-		if (uDao.findUser(user.getUsuario()) != null) {
+		if (userService.findUser(user.getUsuario()) != null) {
 			errors.rejectValue("usuario", "Duplicate.userForm.username");
 		}
 

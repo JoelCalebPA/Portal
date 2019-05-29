@@ -1,6 +1,7 @@
 package com.domain.portal.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,7 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -28,8 +29,8 @@ public class Sede implements Serializable {
 
 	private String nombre;
 
-	@OneToOne(mappedBy = "sede", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-	private User usuario;
+	@OneToMany(mappedBy = "sede", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<User> usuarios;
 
 	public Sede() {
 	}
@@ -50,12 +51,20 @@ public class Sede implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public User getUser() {
-		return usuario;
+	public List<User> getUsuarios() {
+		return usuarios;
 	}
 
-	public void setUser(User user) {
-		this.usuario = user;
+	public void setUsuarios(List<User> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public void addUsuario(User user) {
+		this.usuarios.add(user);
+	}
+
+	public void removeUsuario(User user) {
+		this.usuarios.remove(user);
 	}
 
 }

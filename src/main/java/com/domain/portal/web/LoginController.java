@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.domain.portal.dao.UsuarioDao;
 import com.domain.portal.model.User;
+import com.domain.portal.service.UserService;
 import com.domain.portal.validator.UserValidator;
 
 @Controller
@@ -19,7 +19,7 @@ public class LoginController {
 	private UserValidator userValidator;
 
 	@Autowired
-	private UsuarioDao uDao;
+	private UserService userService;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String registration(Model model) {
@@ -33,7 +33,7 @@ public class LoginController {
 		if (bindingResult.hasErrors()) {
 			return "registration";
 		}
-		uDao.saveUser(userForm);
+		userService.saveUser(userForm);
 //		securityService.autologin(userForm.getUsuario(), userForm.getPassword());
 		return "redirect:/login";
 	}

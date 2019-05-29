@@ -15,13 +15,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
-import com.domain.portal.dao.UsuarioDao;
 import com.domain.portal.model.User;
+import com.domain.portal.service.UserService;
 
-@Service
+@Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
@@ -30,10 +29,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	private LdapAuthenticationProvider ldapProvider;
 
 	@Autowired
-	private UsuarioDao dao;
+	private UserService userService;
 
 	@Override
-	@Transactional
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		try {
@@ -41,19 +39,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			log.info("Login through ldap provider");
 			grantedAuthorities = auth.getAuthorities().stream().collect(Collectors.toSet());
 			log.info("Loaded authorities for user: " + auth.getName());
-			if (dao.findUser(auth.getName()) == null) {
+			if (userService.findUser(auth.getName()) == null) {
 				User user = new User();
 				user.setUsuario(auth.getName());
 				user.setPassword(auth.getCredentials().toString());
-				user.setRol(dao.findUserRole());
-				dao.saveUser(user);
+				userService.saveUser(user);
 			}
 			return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(), grantedAuthorities);
 		} catch (Exception e) {
 			try {
 				log.info("Login through jdbc provider");
-				User user = dao.findUser(authentication.getName());
-				grantedAuthorities.add(new SimpleGrantedAuthority(dao.findRoleByUser(user.getUsuario())));
+				User user = userService.findUser(authentication.getName());
+				grantedAuthorities.add(new SimpleGrantedAuthority(user.getRol().getNombre()));
 				log.info("Loaded authorities for user: " + user.getUsuario());
 				return new UsernamePasswordAuthenticationToken(user.getUsuario(), user.getPassword(),
 						grantedAuthorities);
