@@ -7,12 +7,12 @@ import java.util.List;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +24,7 @@ import com.domain.portal.config.Config;
 import com.domain.portal.model.DocumentType;
 import com.domain.portal.model.User;
 import com.domain.portal.service.OpenkmService;
+import com.domain.portal.service.UserService;
 import com.domain.portal.util.WebUtils;
 import com.openkm.sdk4j.bean.Document;
 
@@ -33,19 +34,11 @@ public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-//	@Autowired
-//	@Qualifier(value = "entityManagerFactory")
-//	EntityManagerFactory entityManagerFactory;
-//	
-//	@Autowired
-//	@Qualifier(value = "transactionManager")
-//	JpaTransactionManager transactionManager;
-//
 	@Autowired
 	private OpenkmService okmService;
-//
-//	@Autowired
-//	private UserRepository userRepository;
+
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private Config configService;
@@ -55,34 +48,32 @@ public class UserController {
 		return new ArrayList<DocumentType>();
 	}
 
-	@SuppressWarnings("unchecked")
 	@GetMapping("/user")
-	public ModelAndView getHome(@ModelAttribute("documents") List<DocumentType> documents, HttpServletRequest request) {
+	public ModelAndView getHome(@ModelAttribute("documents") List<DocumentType> documents, HttpServletRequest request,
+			Authentication auth) {
 		ModelAndView view;
-		HttpSession session = request.getSession();
 		try {
 			view = new ModelAndView("user/home");
-			documents = (List<DocumentType>) session.getAttribute("documents");
+			documents = (List<DocumentType>) okmService.getDocuments(auth.getName());
 			DocumentType doc = documents.iterator().next();
 			doc.setDownloadUrl(generatePreviewUrl(doc, request));
 			view.addObject("currentDoc", doc);
 			view.addObject("active", "home");
 		} catch (Exception e) {
-			view = new ModelAndView("error");
+			view = new ModelAndView("user/home");
+			view.addObject("noDocs", true);
 			e.printStackTrace();
 		}
 		return view;
 	}
 
-	@SuppressWarnings("unchecked")
 	@GetMapping(path = "/user/record")
-	public ModelAndView getRecord(@ModelAttribute("documents") List<DocumentType> documents,
-			HttpServletRequest request) {
+	public ModelAndView getRecord(@ModelAttribute("documents") List<DocumentType> documents, HttpServletRequest request,
+			Authentication auth) {
 		ModelAndView view;
-		HttpSession session = request.getSession();
 		try {
 			view = new ModelAndView("user/record");
-			documents = (List<DocumentType>) session.getAttribute("documents");
+			documents = (List<DocumentType>) okmService.getDocuments(auth.getName());
 			for (DocumentType doc : documents) {
 				doc.setDownloadUrl(generatePreviewUrl(doc, request));
 			}
@@ -96,12 +87,11 @@ public class UserController {
 	}
 
 	@GetMapping("/user/account")
-	public ModelAndView getAccount(HttpServletRequest request) {
+	public ModelAndView getAccount(HttpServletRequest request, Authentication auth) {
 		ModelAndView view;
-		HttpSession session = request.getSession();
 		try {
 			view = new ModelAndView("user/account");
-			User user = (User) session.getAttribute("user");
+			User user = userService.findUser(auth.getName());
 			view.addObject("user", user);
 			view.addObject("active", "account");
 		} catch (Exception e) {

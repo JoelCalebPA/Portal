@@ -10,40 +10,37 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rol")
-@NamedQueries({ @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
-		@NamedQuery(name = "Role.findByUser", query = "SELECT r FROM Role r INNER JOIN User u ON u.rol.idRol=r.idRol WHERE u.usuario=:username"),
-		@NamedQuery(name = "Role.find", query = "SELECT r FROM Role r WHERE r.idRol=:idRol") })
-public class Role implements Serializable {
+@Table(name = "sede")
+@NamedQuery(name = "Sede.findAll", query = "SELECT s FROM Sede s")
+public class Sede implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "ROL_ID_GENERATOR", sequenceName = "rol_sequence", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROL_ID_GENERATOR")
-	@Column(name = "ID_ROL")
-	private long idRol;
+	@SequenceGenerator(name = "SEDE_ID_GENERATOR", sequenceName = "SEDE_SEQUENCE", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEDE_ID_GENERATOR")
+	@Column(name = "ID_SEDE")
+	private long idSede;
 
 	private String nombre;
 
-	@OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "sede", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<User> usuarios;
 
-	public Role() {
+	public Sede() {
 	}
 
-	public long getIdRol() {
-		return this.idRol;
+	public long getIdSede() {
+		return this.idSede;
 	}
 
-	public void setIdRol(long idRol) {
-		this.idRol = idRol;
+	public void setIdSede(long idSede) {
+		this.idSede = idSede;
 	}
 
 	public String getNombre() {

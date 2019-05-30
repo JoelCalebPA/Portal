@@ -15,26 +15,23 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
-import com.domain.portal.model.Role;
 import com.domain.portal.model.User;
-import com.domain.portal.repository.UserRepository;
+import com.domain.portal.service.UserService;
 
-@Service
+@Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
 
 	@Autowired
-	UserRepository userRepository;
+	private LdapAuthenticationProvider ldapProvider;
 
 	@Autowired
-	LdapAuthenticationProvider ldapProvider;
+	private UserService userService;
 
 	@Override
-	@Transactional
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		try {
@@ -42,22 +39,20 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			log.info("Login through ldap provider");
 			grantedAuthorities = auth.getAuthorities().stream().collect(Collectors.toSet());
 			log.info("Loaded authorities for user: " + auth.getName());
-			if (userRepository.findByUsername(auth.getName()) == null) {
+			if (userService.findUser(auth.getName()) == null) {
 				User user = new User();
-				user.setUsername(auth.getName());
-				user.setPassword((String) auth.getCredentials());
-				userRepository.save(user);
+				user.setUsuario(auth.getName());
+				user.setPassword(auth.getCredentials().toString());
+				userService.saveUser(user);
 			}
 			return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(), grantedAuthorities);
 		} catch (Exception e) {
 			try {
 				log.info("Login through jdbc provider");
-				User user = userRepository.findByUsername(authentication.getName());
-				for (Role role : user.getRoles()) {
-					grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-				}
-				log.info("Loaded authorities for user: " + user.getUsername());
-				return new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(),
+				User user = userService.findUser(authentication.getName());
+				grantedAuthorities.add(new SimpleGrantedAuthority(user.getRol().getNombre()));
+				log.info("Loaded authorities for user: " + user.getUsuario());
+				return new UsernamePasswordAuthenticationToken(user.getUsuario(), user.getPassword(),
 						grantedAuthorities);
 			} catch (Exception e2) {
 				log.warn(e2.getMessage(), e2);

@@ -7,7 +7,6 @@
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>Account Registration Webapp</name>
-	<url>http://maven.apache.org</url>
 	<properties>
 		<sdk4j.version>2.7</sdk4j.version>
 		<spring.version>5.1.6.RELEASE</spring.version>
@@ -16,7 +15,7 @@
 		<hibernate.version>5.4.2.Final</hibernate.version>
 		<hibernate-validator.version>5.2.1.Final</hibernate-validator.version>
 		<mysql-connector.version>5.1.47</mysql-connector.version>
-		<commons-dbcp.version>1.4</commons-dbcp.version>
+		<tomcat-dbcp.version>9.0.1</tomcat-dbcp.version>
 		<jstl.version>1.2</jstl.version>
 		<junit.version>5.3.2</junit.version>
 		<logback.version>1.2.3</logback.version>
@@ -31,13 +30,43 @@
 			<url>http://maven.openkm.com/maven2</url>
 		</repository>
 		<repository>
-			<id>openkm.com</id>
-			<name>OpenKM Maven Repository</name>
-			<url>http://maven.openkm.com/maven2</url>
+			<id>maven.org</id>
+			<name>Central Maven Repository</name>
+			<url>http://central.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>maven.oracle.com</id>
+			<name>oracle-maven-repo</name>
+			<url>https://maven.oracle.com</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
 		</repository>
 	</repositories>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven.oracle.com</id>
+			<name>oracle-maven-repo</name>
+			<url>https://maven.oracle.com</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<dependencies>
+
+		<dependency>
+			<groupId>com.oracle.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>18.3.0.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.openkm</groupId>
 			<artifactId>sdk4j</artifactId>
@@ -49,6 +78,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -58,6 +88,18 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 
@@ -85,52 +127,27 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.4.197</version>
 		</dependency>
 
-
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate-validator.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jpa</artifactId>
-			<version>${spring-data-jpa.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql-connector.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>${commons-dbcp.version}</version>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-dbcp</artifactId>
+			<version>${tomcat-dbcp.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>1.6.2</version>
 		</dependency>
 
 		<dependency>
@@ -147,8 +164,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>javax.mail-api</artifactId>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
 			<version>1.6.2</version>
 		</dependency>
 

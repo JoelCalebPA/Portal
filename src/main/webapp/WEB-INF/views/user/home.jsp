@@ -24,9 +24,11 @@
 					style="background-color: #ffdd00; color: #2d4191;">Descargar</button>
 			</form>
 		</div>
-		<embed showcontrols="false" style="margin-top: 15px;"
-			src="${ contextPath }/Preview?node=${ currentDoc.uuid }"
-			type="application/pdf" width="100%" height="350">
+		<c:if test="${ !noDocs }">
+			<embed showcontrols="false" style="margin-top: 15px;"
+				src="${ contextPath }/Preview?node=${ currentDoc.uuid }"
+				type="application/pdf" width="100%" height="350">
+		</c:if>
 	</div>
 	<jsp:include page="../include/footer.jsp" />
 </body>

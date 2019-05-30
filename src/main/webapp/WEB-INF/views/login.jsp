@@ -69,6 +69,10 @@
 			<img width="100%"
 				src="${ contextPath }/resources/images/logocofo.png">
 			<h5 align="center" id="title">Portal de Boletas de Pago</h5>
+			<%-- 			<c:forEach var="rol" items="${ roles }"> --%>
+			<%-- 				<p>${ rol }</p> --%>
+			<%-- 			</c:forEach> --%>
+			<p>${ rol }</p>
 		</div>
 		<div class="right-footer">
 			<div class="fo-1">
