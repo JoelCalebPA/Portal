@@ -16,11 +16,6 @@
 
 <title>Log in with your account</title>
 <jsp:include page="include/header.jsp"></jsp:include>
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body>
@@ -40,8 +35,9 @@
 					<div class="form-group">
 						<label for="username">Usuario</label> <input type="text"
 							class="form-control" id="username" name="username"
-							placeholder="Por ejemplo: user@cofopri.com.pe" autofocus="autofocus">
-						<span class="${error != null ? 'has-error' : ''}">${message}</span>
+							placeholder="Por ejemplo: user@cofopri.com.pe"
+							autofocus="autofocus"> <span
+							class="${error != null ? 'has-error' : ''}">${message}</span>
 					</div>
 					<div class="form-group">
 						<label for="password">Contraseña</label> <input name="password"

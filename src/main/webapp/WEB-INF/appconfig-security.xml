@@ -9,16 +9,13 @@
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/login**" access="isAnonymous()" />
+		<intercept-url pattern="/login**" access="permitAll" />
 		<intercept-url pattern="/registration**"
-			access="isAnonymous()" />
+			access="permitAll" />
 		<intercept-url pattern="/resources/**"
 			access="permitAll" />
-		<intercept-url pattern="/**"
-			access="isFullyAuthenticated()" />
 		<intercept-url pattern="/user/**"
 			access="isFullyAuthenticated()" />
-		<!-- access="hasRole('ROLE_USER')" /> -->
 		<intercept-url pattern="/admin/**"
 			access="hasRole('ROLE_ADMIN')" />
 		<form-login login-page="/login"

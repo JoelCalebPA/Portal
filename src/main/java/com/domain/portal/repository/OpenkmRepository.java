@@ -103,7 +103,7 @@ public class OpenkmRepository {
 			userDocs.add(doc);
 		}
 		IOUtils.closeQuietly(is);
-
+		
 		logger.info("Returning " + userDocs.size() + " docs for user: " + user);
 		return userDocs;
 	}

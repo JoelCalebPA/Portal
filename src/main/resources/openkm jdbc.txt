@@ -1,1 +1,0 @@
-select nd.nbs_uuid, nbs_name, npg_group, npg_name, npg_value from OKM_NODE_DOCUMENT nd inner join OKM_NODE_BASE nb on nd.nbs_uuid = nb.nbs_uuid inner join OKM_NODE_PROPERTY np on np.npg_node = nd.nbs_uuid where np.npg_value="sandisk"

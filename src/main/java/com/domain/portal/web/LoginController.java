@@ -1,6 +1,7 @@
 package com.domain.portal.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,9 +23,9 @@ public class LoginController {
 	private UserService userService;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
-	public String registration(Model model) {
+	public String registration(Model model, Authentication auth) {
 		model.addAttribute("userForm", new User());
-		return "registration";
+		return redirectByRole(auth, "registration");
 	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -34,27 +35,12 @@ public class LoginController {
 			return "registration";
 		}
 		userService.saveUser(userForm);
-//		securityService.autologin(userForm.getUsuario(), userForm.getPassword());
 		return "redirect:/login";
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home() {
-		String redirect = "redirect:/login";
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		redirect = "redirect:/user";
-//		List<String> roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-//				.collect(Collectors.toList());
-//		for (String role : roles) {
-//			if (role.equals("ROLE_USER")) {
-//				redirect = "user/home";
-//			} else if (role.equals("ROLE_ADMIN")) {
-//				redirect = "admin/home";
-//			} else if (role.equals("ROLE_ANONYMUS")) {
-//				redirect = "redirect:/login";
-//			}
-//		}
-		return redirect;
+	public String home(Authentication auth) {
+		return redirectByRole(auth, "redirect:/login");
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -67,19 +53,28 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/redirect", method = RequestMethod.GET)
-	public String redirect() {
+	public String redirect(Authentication auth) {
+		return redirectByRole(auth, "redirect:/login");
+	}
+
+	private String redirectByRole(Authentication auth, String route) {
 		String redirect = "";
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		List<String> roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-//				.collect(Collectors.toList());
-		redirect = "redirect:/user";
-//		for (String role : roles) {
-//			if (role.equals("ROLE_USER")) {
-//				redirect = "redirect:/user";
-//			} else if (role.equals("ROLE_ADMIN")) {
-//				redirect = "redirect:/admin";
-//			}
-//		}
+		try {
+			String role = auth.getAuthorities().iterator().next().getAuthority();
+			switch (role) {
+			case "ROLE_USER":
+				redirect = "redirect:/user";
+				break;
+			case "ROLE_ADMIN":
+				redirect = "redirect:/admin";
+				break;
+			default:
+				redirect = route;
+				break;
+			}
+		} catch (Exception e) {
+			redirect = route;
+		}
 		return redirect;
 	}
 

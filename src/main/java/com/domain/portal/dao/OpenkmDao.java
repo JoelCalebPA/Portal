@@ -1,4 +1,4 @@
-package com.domain.portal.service;
+package com.domain.portal.dao;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import com.domain.portal.model.DocumentType;
+import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.bean.Document;
 import com.openkm.sdk4j.exception.AccessDeniedException;
 import com.openkm.sdk4j.exception.DatabaseException;
@@ -14,7 +15,9 @@ import com.openkm.sdk4j.exception.RepositoryException;
 import com.openkm.sdk4j.exception.UnknowException;
 import com.openkm.sdk4j.exception.WebserviceException;
 
-public interface OpenkmService {
+public interface OpenkmDao {
+
+	OKMWebservices getOKMWebServices();
 
 	List<DocumentType> getDocuments(String user)
 			throws DatabaseException, UnknowException, WebserviceException, UnsupportedEncodingException;
