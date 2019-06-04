@@ -12,13 +12,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "usuario")
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
 		@NamedQuery(name = "User.find", query = "SELECT u FROM User u WHERE u.usuario=:username") })
+@NamedStoredProcedureQueries({
+		@NamedStoredProcedureQuery(name = "callFindUserByUsernameProcedure", procedureName = "findUserByUsername", resultClasses = {
+				User.class }, parameters = {
+						@StoredProcedureParameter(name = "username", mode = ParameterMode.IN, type = String.class),
+						@StoredProcedureParameter(name = "user_cursor", mode = ParameterMode.OUT, type = Void.class) }),
+		@NamedStoredProcedureQuery(name = "callFindRoleByUsernameProcedure", procedureName = "findRoleByUsername", resultClasses = {
+				Role.class }, parameters = {
+						@StoredProcedureParameter(name = "username", mode = ParameterMode.IN, type = String.class),
+						@StoredProcedureParameter(name = "role_cursor", mode = ParameterMode.OUT, type = Void.class) }) })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 

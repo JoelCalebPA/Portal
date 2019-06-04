@@ -18,7 +18,7 @@ import org.springframework.security.ldap.authentication.LdapAuthenticationProvid
 import org.springframework.stereotype.Component;
 
 import com.domain.portal.model.User;
-import com.domain.portal.service.UserService;
+import com.domain.portal.service.IUserService;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -29,7 +29,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	private LdapAuthenticationProvider ldapProvider;
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -43,14 +43,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 				User user = new User();
 				user.setUsuario(auth.getName());
 				user.setPassword(auth.getCredentials().toString());
-				userService.saveUser(user);
+				userService.save(user);
 			}
 			return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(), grantedAuthorities);
 		} catch (Exception e) {
 			try {
 				log.info("Login through jdbc provider");
-				User user = userService.findUser(authentication.getName());
-				grantedAuthorities.add(new SimpleGrantedAuthority(user.getRol().getNombre()));
+				String username = authentication.getName();
+				User user = userService.findUser(username);
+				grantedAuthorities.add(new SimpleGrantedAuthority(userService.findRoleByUser(username).getNombre()));
 				log.info("Loaded authorities for user: " + user.getUsuario());
 				return new UsernamePasswordAuthenticationToken(user.getUsuario(), user.getPassword(),
 						grantedAuthorities);

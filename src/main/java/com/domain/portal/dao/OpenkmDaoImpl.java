@@ -52,7 +52,7 @@ public class OpenkmDaoImpl implements OpenkmDao {
 		log.info("getDocuments() { } for user: " + user);
 		List<DocumentType> userDocs = new ArrayList<DocumentType>();
 		String sql = "select nd.nbs_uuid, nbs_name, nd.ndc_mime_type from OKM_NODE_DOCUMENT nd inner join OKM_NODE_BASE nb on nd.NBS_UUID = nb.NBS_UUID inner join OKM_NODE_PROPERTY np on np.NPG_NODE = nd.NBS_UUID where np.NPG_VALUE=\""
-				+ user + "\" and nb.NBS_CONTEXT=\"okm_root\" order by order by NBS_CREATED desc";
+				+ user + "\" and nb.NBS_CONTEXT=\"okm_root\" order by nb.NBS_CREATED desc";
 		InputStream is = new ByteArrayInputStream(sql.getBytes("UTF-8"));
 		SqlQueryResults result = ws.executeSqlQuery(is);
 

@@ -19,6 +19,8 @@
 				<div class="form-group mx-sm-3 mb-2">
 					<input type="text" class="form-control" id="name" name="name"
 						placeholder="Por ejemplo: Caleb" autofocus="autofocus">
+				</div>
+				<div class="form-group mb-2">
 					<button type="submit" class="form-group btn btn-primary mb-2"
 						style="background-color: #ffdd00; color: #2d4191;">Buscar</button>
 				</div>
@@ -45,9 +47,9 @@
 					<tbody>
 						<c:forEach var="u" items="${ users }">
 							<tr>
-								<td>${ u.office.name }</td>
-								<td>${ u.fullName }</td>
-								<td>${ u.username }</td>
+								<td>${ u.sede.nombre }</td>
+								<td>${ u.usuario }</td>
+								<td>${ u.password }</td>
 								<td><button>Editar</button></td>
 								<td><button>Deshabilitar</button></td>
 							</tr>

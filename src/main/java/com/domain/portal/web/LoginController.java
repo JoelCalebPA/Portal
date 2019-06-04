@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.domain.portal.model.User;
-import com.domain.portal.service.UserService;
+import com.domain.portal.service.IUserService;
 import com.domain.portal.validator.UserValidator;
 
 @Controller
@@ -20,7 +20,7 @@ public class LoginController {
 	private UserValidator userValidator;
 
 	@Autowired
-	private UserService userService;
+	private IUserService iUserService;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String registration(Model model, Authentication auth) {
@@ -34,7 +34,7 @@ public class LoginController {
 		if (bindingResult.hasErrors()) {
 			return "registration";
 		}
-		userService.saveUser(userForm);
+		iUserService.save(userForm);
 		return "redirect:/login";
 	}
 

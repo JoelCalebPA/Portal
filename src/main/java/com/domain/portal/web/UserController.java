@@ -24,7 +24,7 @@ import com.domain.portal.config.Config;
 import com.domain.portal.model.DocumentType;
 import com.domain.portal.model.User;
 import com.domain.portal.service.OpenkmService;
-import com.domain.portal.service.UserService;
+import com.domain.portal.service.IUserService;
 import com.domain.portal.util.WebUtils;
 import com.openkm.sdk4j.bean.Document;
 
@@ -38,7 +38,7 @@ public class UserController {
 	private OpenkmService okmService;
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 
 	@Autowired
 	private Config configService;

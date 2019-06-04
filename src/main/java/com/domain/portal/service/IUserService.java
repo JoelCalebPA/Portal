@@ -1,13 +1,11 @@
-package com.domain.portal.dao;
+package com.domain.portal.service;
 
 import com.domain.portal.model.Role;
 import com.domain.portal.model.User;
 
-public interface UserDao {
+public interface IUserService extends IHibernateDAO<User> {
 
 	User findUser(String username);
-
-	void saveUser(User user);
 
 	Role findRoleUser();
 
