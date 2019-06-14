@@ -26,6 +26,7 @@ img {
 	max-width: 250px;
 	height: auto;
 }
+
 #menu img {
 	max-width: 300px;
 }
@@ -79,10 +80,11 @@ img {
 	padding: 10px 0px 10px 40px;
 	border-top-style: solid;
 	text-decoration: none;
-	display: block	;
+	display: block;
 	color: #fff;
 	transition: 0.3s;
 }
+
 .menu-navbar a:last-child {
 	border-bottom-style: solid;
 }
@@ -155,7 +157,7 @@ img {
 
 @media screen and ( max-width : 800px) {
 	#menu {
-		width: 0px;
+		margin-left: -225px;
 	}
 	.menu-logo {
 		display: none !important;
@@ -188,11 +190,11 @@ img {
 }
 
 .show-menu {
-	width: 225px !important;
+	margin-left: 0px !important;
 	transition: 0.5s;
 }
 
 .hide-menu {
-	width: 0px !important;
+	margin-left: -225px !important;
 	transition: 0.5s;
 }

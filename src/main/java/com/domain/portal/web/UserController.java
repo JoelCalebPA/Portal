@@ -3,8 +3,8 @@ package com.domain.portal.web;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.domain.portal.config.Config;
 import com.domain.portal.model.DocumentType;
 import com.domain.portal.model.User;
-import com.domain.portal.service.OpenkmService;
 import com.domain.portal.service.IUserService;
+import com.domain.portal.service.OpenkmService;
+import com.domain.portal.util.MobileUtils;
+import com.domain.portal.util.PathUtils;
 import com.domain.portal.util.WebUtils;
 import com.openkm.sdk4j.bean.Document;
 
@@ -56,13 +59,12 @@ public class UserController {
 			view = new ModelAndView("user/home");
 			documents = (List<DocumentType>) okmService.getDocuments(auth.getName());
 			DocumentType doc = documents.iterator().next();
-			doc.setDownloadUrl(generatePreviewUrl(doc, request));
 			view.addObject("currentDoc", doc);
 			view.addObject("active", "home");
 		} catch (Exception e) {
 			view = new ModelAndView("user/home");
 			view.addObject("noDocs", true);
-			e.printStackTrace();
+			e.getCause();
 		}
 		return view;
 	}
@@ -116,19 +118,22 @@ public class UserController {
 		return previewUrl.toString();
 	}
 
+	@Cacheable()
 	@GetMapping("/Preview")
 	public ModelAndView getPreview(@RequestParam("node") String node, HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			InputStream is = okmService.getContent(node);
 			Document doc = okmService.getProperties(node);
-			WebUtils.prepareSendFile(request, response, doc.getActualVersion().getName(), doc.getMimeType(), true);
-			response.setHeader("X-Frame-Options", "SAMEORIGIN");
+			String docName = PathUtils.getName(doc.getPath());
+			WebUtils.prepareSendFile(request, response, docName, doc.getMimeType(), true);
 			response.setContentLength(new Long(doc.getActualVersion().getSize()).intValue());
-			ServletOutputStream sos = response.getOutputStream();
-			IOUtils.copy(is, sos);
-			sos.flush();
-			sos.close();
+			String userAgent = request.getSession().getAttribute("device").toString();
+			if (userAgent.equalsIgnoreCase("smartphone")) {
+				response.setContentType("image/png");
+				MobileUtils.convertPdfToImage(okmService.getContent(node), docName, response.getOutputStream());
+			} else {
+				IOUtils.copy(okmService.getContent(node), response.getOutputStream());
+			}
 		} catch (Exception e) {
 			logger.info("Previsualización de boleta cancelada");
 		}

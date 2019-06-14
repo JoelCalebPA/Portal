@@ -72,16 +72,13 @@ public class OpenkmRepository {
 //		docs = new ArrayList<Document>();
 		OKMWebservices ws = getOKMWebservices();
 		logger.info("getDocuments() { } for user: " + user);
-//		logger.debug("Looping through docs");
 //		loopDocs(configService.OPENKM_FOLDER_BOLETAS, ws);
 		List<DocumentType> userDocs = new ArrayList<DocumentType>();
 //		for (Document document : docs) {
 //			if (ws.hasGroup(document.getUuid(), METADATA_BOLETA)) {
-//				logger.debug("Metadata " + METADATA_BOLETA + " found");
 //				for (FormElement fe : ws.getPropertyGroupProperties(document.getUuid(), METADATA_BOLETA)) {
 //					if (fe.getName().equals(METADATA_NAME_FIELD)) {
 //						Input i = (Input) fe;
-//						logger.debug("Metadata property " + METADATA_NAME_FIELD + " value = " + i.getValue());
 //						if (i.getValue().equals(user)) {
 //							userDocs.add(document);
 //						}

@@ -25,6 +25,14 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 			Authentication authentication) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		log.debug("Session: {}", session);
+		String userAgent = request.getHeader("user-agent").toLowerCase();
+		session.setAttribute("user-agent", userAgent);
+		log.debug("User-agent: {}", userAgent);
+		if (userAgent.contains("android") || userAgent.contains("iphone") || userAgent.contains("ipad")) {
+			session.setAttribute("device", "smartphone");
+		} else {
+			session.setAttribute("device", "pc");
+		}
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 

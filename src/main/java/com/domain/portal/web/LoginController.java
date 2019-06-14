@@ -20,7 +20,7 @@ public class LoginController {
 	private UserValidator userValidator;
 
 	@Autowired
-	private IUserService iUserService;
+	private IUserService userService;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String registration(Model model, Authentication auth) {
@@ -34,7 +34,7 @@ public class LoginController {
 		if (bindingResult.hasErrors()) {
 			return "registration";
 		}
-		iUserService.save(userForm);
+		userService.save(userForm);
 		return "redirect:/login";
 	}
 
@@ -49,6 +49,8 @@ public class LoginController {
 			model.addAttribute("error", "Tu usuario y contraseña son incorrectos.");
 		if (logout != null)
 			model.addAttribute("message", "Cerraste sesión exitosamente.");
+//		model.addAttribute("storedUser", userService.findUser("sandisk"));
+//		model.addAttribute("users", userService.findAll());
 		return "login";
 	}
 

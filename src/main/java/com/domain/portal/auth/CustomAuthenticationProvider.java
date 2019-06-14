@@ -35,25 +35,26 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		try {
-			Authentication auth = ldapProvider.authenticate(authentication);
-			log.info("Login through ldap provider");
-			grantedAuthorities = auth.getAuthorities().stream().collect(Collectors.toSet());
-			log.info("Loaded authorities for user: " + auth.getName());
-			if (userService.findUser(auth.getName()) == null) {
-				User user = new User();
-				user.setUsuario(auth.getName());
-				user.setPassword(auth.getCredentials().toString());
-				userService.save(user);
-			}
-			return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(), grantedAuthorities);
+			log.info("Login through jdbc provider");
+			String username = authentication.getName();
+			User user = userService.findUser(username);
+			grantedAuthorities.add(new SimpleGrantedAuthority(user.getRol().getNombre()));
+			log.info("Loaded authorities for user: " + user.getUsuario());
+			return new UsernamePasswordAuthenticationToken(user.getUsuario(), user.getPassword(), grantedAuthorities);
 		} catch (Exception e) {
+			log.info("JDBC login failed with message: {} - {}", e.getCause(), e.getMessage());
 			try {
-				log.info("Login through jdbc provider");
-				String username = authentication.getName();
-				User user = userService.findUser(username);
-				grantedAuthorities.add(new SimpleGrantedAuthority(userService.findRoleByUser(username).getNombre()));
-				log.info("Loaded authorities for user: " + user.getUsuario());
-				return new UsernamePasswordAuthenticationToken(user.getUsuario(), user.getPassword(),
+				Authentication auth = ldapProvider.authenticate(authentication);
+				log.info("Login through ldap provider");
+				grantedAuthorities = auth.getAuthorities().stream().collect(Collectors.toSet());
+				log.info("Loaded authorities for user: " + auth.getName());
+				if (userService.findUser(auth.getName()) == null) {
+					User user = new User();
+					user.setUsuario(auth.getName());
+					user.setPassword(auth.getCredentials().toString());
+					userService.save(user);
+				}
+				return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(),
 						grantedAuthorities);
 			} catch (Exception e2) {
 				log.warn(e2.getMessage(), e2);

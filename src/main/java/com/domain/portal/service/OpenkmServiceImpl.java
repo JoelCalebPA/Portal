@@ -42,4 +42,10 @@ public class OpenkmServiceImpl implements OpenkmService {
 		return okmDao.getContent(node);
 	}
 
+	@Override
+	public InputStream imageConvert(InputStream is, String fileName, String params, String dstMimeType)
+			throws IOException, WebserviceException, UnknowException {
+		return okmDao.imageConvert(is, fileName, params, dstMimeType);
+	}
+
 }

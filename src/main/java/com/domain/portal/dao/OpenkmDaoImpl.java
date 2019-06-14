@@ -38,10 +38,8 @@ public class OpenkmDaoImpl implements OpenkmDao {
 	@Override
 	public OKMWebservices getOKMWebServices() {
 		OKMWebservices ws = null;
-		log.info("Creating OKMWebservice instance");
 		ws = OKMWebservicesFactory.newInstance(configService.OPENKM_URL, configService.OPENKM_USER,
 				configService.OPENKM_PASSWORD);
-		log.info("OKMWebservice instance created: " + ws.toString());
 		return ws;
 	}
 
@@ -49,7 +47,7 @@ public class OpenkmDaoImpl implements OpenkmDao {
 	public List<DocumentType> getDocuments(String user)
 			throws DatabaseException, UnknowException, WebserviceException, UnsupportedEncodingException {
 		OKMWebservices ws = getOKMWebServices();
-		log.info("getDocuments() { } for user: " + user);
+		log.info("getDocuments() for user: { } ", user);
 		List<DocumentType> userDocs = new ArrayList<DocumentType>();
 		String sql = "select nd.nbs_uuid, nbs_name, nd.ndc_mime_type from OKM_NODE_DOCUMENT nd inner join OKM_NODE_BASE nb on nd.NBS_UUID = nb.NBS_UUID inner join OKM_NODE_PROPERTY np on np.NPG_NODE = nd.NBS_UUID where np.NPG_VALUE=\""
 				+ user + "\" and nb.NBS_CONTEXT=\"okm_root\" order by nb.NBS_CREATED desc";
@@ -83,6 +81,13 @@ public class OpenkmDaoImpl implements OpenkmDao {
 		log.debug("getContent({})", node);
 		OKMWebservices ws = getOKMWebServices();
 		return ws.getContent(node);
+	}
+
+	@Override
+	public InputStream imageConvert(InputStream is, String fileName, String params, String dstMimeType)
+			throws IOException, WebserviceException, UnknowException {
+		OKMWebservices ws = getOKMWebServices();
+		return ws.imageConvert(is, fileName, params, dstMimeType);
 	}
 
 }

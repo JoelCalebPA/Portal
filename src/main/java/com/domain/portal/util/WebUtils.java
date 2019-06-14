@@ -21,14 +21,15 @@
 
 package com.domain.portal.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebUtils {
 
@@ -57,7 +58,6 @@ public class WebUtils {
 			}
 		} else if (userAgent.contains("iphone") || userAgent.contains("ipad")) {
 			log.debug("Agent: iPhone - iPad");
-			// Do nothing
 		} else if (userAgent.contains("android")) {
 			log.debug("Agent: Android");
 			fileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", " ");
@@ -67,7 +67,6 @@ public class WebUtils {
 		} else {
 			log.debug("Agent: Unknown");
 		}
-
 		if (inline) {
 			response.setHeader("Content-disposition", "inline; filename=\"" + fileName + "\"");
 		} else {

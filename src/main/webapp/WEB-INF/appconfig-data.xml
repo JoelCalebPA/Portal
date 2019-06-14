@@ -30,7 +30,7 @@
 			value="com.domain.portal.model" />
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</prop>
 				<prop key="hibernate.ddl-auto">update</prop>
 				<!-- <prop key="hibernate.id.new_generator_mappings">false</prop> -->
 			</props>

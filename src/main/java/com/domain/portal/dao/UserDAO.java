@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.domain.portal.model.Role;
-import com.domain.portal.model.Sede;
 import com.domain.portal.model.User;
 
 import oracle.jdbc.OracleTypes;
@@ -31,36 +30,8 @@ public class UserDAO extends AbstractHibernateDAO<User> implements IUserDAO {
 
 	@Override
 	public User findUser(String username) {
-		Connection connection;
-		CallableStatement callableStatement;
-		ResultSet resultSet;
-		try {
-			connection = dataSource.getConnection();
-			callableStatement = connection.prepareCall("{ call findUserByUsername(?,?)}");
-			callableStatement.registerOutParameter("user_cursor", OracleTypes.CURSOR);
-			callableStatement.setString("username", username);
-			callableStatement.execute();
-			resultSet = (ResultSet) callableStatement.getObject("user_cursor");
-			User u = new User();
-			while (resultSet.next()) {
-				Role r = new Role();
-				r.setIdRol(resultSet.getLong("id_rol"));
-				Sede s = new Sede();
-				s.setIdSede(resultSet.getLong("id_sede"));
-				u.setIdUsuario(resultSet.getLong("id_usuario"));
-				u.setRol(r);
-				u.setSede(s);
-				u.setNombres(resultSet.getString("nombres"));
-				u.setApellidos(resultSet.getString("apellidos"));
-				u.setUsuario(resultSet.getString("usuario"));
-				u.setPassword(resultSet.getString("password"));
-				u.setEstado(resultSet.getInt("estado"));
-			}
-			return u;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		return (User) getCurrentSession().createNamedStoredProcedureQuery("callFindUserByUsernameProcedure")
+				.setParameter("username", username).getSingleResult();
 	}
 
 	@Override

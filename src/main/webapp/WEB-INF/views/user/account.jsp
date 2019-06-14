@@ -22,24 +22,26 @@
 				<label>Usuario: </label> <label>${ user.rol.nombre }</label>
 			</div>
 		</div>
-		<div class="account-header">
-			<div class="form-group mb-2">
-				<label>Cambiar Contraseña</label>
+		<c:if test="${ user.sede.idSede == 2 }">
+			<div class="account-header">
+				<div class="form-group mb-2">
+					<label>Cambiar Contraseña</label>
+				</div>
 			</div>
-		</div>
-		<div class="account-information">
-			<div class="form-group mb-2">
-				<label>Actual contraseña: </label> <input class="form-control"
-					type="password" />
+			<div class="account-information">
+				<div class="form-group mb-2">
+					<label>Actual contraseña: </label> <input class="form-control"
+						type="password" />
+				</div>
+				<div class="form-group mb-2">
+					<label>Nueva contraseña: </label> <input class="form-control"
+						type="password" />
+				</div>
+				<div class="form-group mb-2">
+					<input type="button" class="btn btn-primary" value="Cambiar" />
+				</div>
 			</div>
-			<div class="form-group mb-2">
-				<label>Nueva contraseña: </label> <input class="form-control"
-					type="password" />
-			</div>
-			<div class="form-group mb-2">
-				<input type="button" class="btn btn-primary" value="Cambiar" />
-			</div>
-		</div>
+		</c:if>
 	</div>
 	<jsp:include page="../include/footer.jsp"></jsp:include>
 </body>

@@ -22,6 +22,7 @@ public class UserService implements IUserService {
 		try {
 			return userDAO.findUser(username);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

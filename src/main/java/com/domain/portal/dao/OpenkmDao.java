@@ -28,4 +28,7 @@ public interface OpenkmDao {
 	InputStream getContent(String node) throws RepositoryException, IOException, PathNotFoundException,
 			AccessDeniedException, DatabaseException, UnknowException, WebserviceException;
 
+	InputStream imageConvert(InputStream is, String fileName, String params, String dstMimeType)
+			throws IOException, WebserviceException, UnknowException;
+
 }

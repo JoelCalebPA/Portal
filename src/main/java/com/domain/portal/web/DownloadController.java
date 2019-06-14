@@ -45,21 +45,12 @@ public class DownloadController {
 		String node = request.getParameter("node");
 		boolean inline = true;
 
-		if (request.getParameter("attachment") != null && !request.getParameter("attachment").isEmpty()) {
-			inline = false;
-		}
-
-		InputStream is = catalogService.getContent(node);
 		Document doc = catalogService.getProperties(node);
 		WebUtils.prepareSendFile(request, response, PathUtils.getName(doc.getPath()), doc.getMimeType(), inline);
-
-		// Set length
-		// response.setContentLength(is.available()); // Cause a bug, because at this
-		// point InputStream still has not its real size.
 		response.setContentLength(new Long(doc.getActualVersion().getSize()).intValue());
 
 		ServletOutputStream sos = response.getOutputStream();
-		IOUtils.copy(is, sos);
+		IOUtils.copy(catalogService.getContent(node), sos);
 		sos.flush();
 		sos.close();
 	}

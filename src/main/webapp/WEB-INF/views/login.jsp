@@ -33,6 +33,7 @@
 						<p>${ role.name }</p>
 					</div>
 					<div class="form-group">
+						<!-- placeholder="Por ejemplo: user@cofopri.com.pe" -->
 						<label for="username">Usuario</label> <input type="text"
 							class="form-control" id="username" name="username"
 							placeholder="Por ejemplo: user@cofopri.com.pe"
@@ -65,10 +66,10 @@
 			<img width="100%"
 				src="${ contextPath }/resources/images/logocofo.png">
 			<h5 align="center" id="title">Portal de Boletas de Pago</h5>
-			<%-- 			<c:forEach var="rol" items="${ roles }"> --%>
-			<%-- 				<p>${ rol }</p> --%>
-			<%-- 			</c:forEach> --%>
-			<p>${ rol }</p>
+<%-- 			<c:forEach var="u" items="${ users }"> --%>
+<%-- 				<p>${ u.usuario }</p> --%>
+<%-- 			</c:forEach> --%>
+<%-- 			<p>${ storedUser.usuario }</p> --%>
 		</div>
 		<div class="right-footer">
 			<div class="fo-1">
