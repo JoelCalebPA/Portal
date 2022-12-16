@@ -9,7 +9,7 @@
 	<name>Account Registration Webapp</name>
 	<properties>
 		<sdk4j.version>2.7</sdk4j.version>
-		<spring.version>5.1.6.RELEASE</spring.version>
+		<spring.version>5.2.20.RELEASE</spring.version>
 		<spring-security.version>5.1.5.RELEASE</spring-security.version>
 		<spring-data-jpa.version>2.1.6.RELEASE</spring-data-jpa.version>
 		<hibernate.version>5.4.2.Final</hibernate.version>
